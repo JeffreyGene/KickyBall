@@ -1,3 +1,9 @@
 <div class="field">
-  <button *ngFor="let position of positions" class="choice-button" [style.width.%]="getWidth(position.fieldPositionId)">{{position.fieldPositionId}}</button>
+  <div *ngFor="let position of positions" class="position-wrapper" [style.width.%]="getWidth(position.fieldPositionId)">
+    <button [disabled]="isPositionDisabled(position.fieldPositionId)" class="choice-button" (click)="moveToPosition(position)">
+      {{position.fieldPositionId}}
+      <span *ngIf="position.fieldPositionId == currentPosition">SOCCER BALL</span>
+    </button>
+  </div>
+  <button *ngIf="showRestartButton" (click)="resetFieldPosition()" class="restart-button">Restart</button>
 </div>

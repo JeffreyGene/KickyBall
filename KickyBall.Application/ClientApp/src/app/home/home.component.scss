@@ -1,3 +1,10 @@
+.position-wrapper{
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  padding: 15px 0px;
+}
+
 .choice-button {
   border: solid white 5px;
   background-color: green;
@@ -10,4 +17,16 @@
   background-color: green;
   height: 100%;
   width: 100%;
+  text-align: center;
+}
+
+.restart-button {
+  margin: 15px;
+  text-align: center;
+  background-color: lightblue;
+  border: solid black 5px;
+  font-weight: bold;
+  border-radius: 30px;
+  width: 120px;
+  height: 60px;
 }

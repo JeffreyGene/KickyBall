@@ -10,6 +10,10 @@ import { FieldPositionModel } from 'src/models/field-position.model';
 export class HomeComponent {
   controllers: Controllers;
   positions: FieldPositionModel[];
+  currentPosition: number = 1;
+  activePositions: number[] = [2, 3];
+  showRestartButton: boolean = false;
+
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -20,7 +24,27 @@ export class HomeComponent {
   }
 
   getWidth(fieldPositionId: number){
-    console.log(fieldPositionId / Math.log(2));
-    return 100 / Math.floor(fieldPositionId / Math.log(2));
+    let result = 100 / Math.pow(2, Math.floor(Math.log(fieldPositionId)/Math.log(2)));
+    console.log(result);
+    return result;
+  }
+
+  isPositionDisabled(fieldPositionId){
+    return !this.activePositions.some(p => p == fieldPositionId);
+  }
+
+  moveToPosition(position: FieldPositionModel){
+    this.currentPosition = position.fieldPositionId;
+    this.activePositions = [position.leftFieldPositionId, position.rightFieldPositionId];
+    if(this.currentPosition > 31){
+      //Save last position and restart
+      this.showRestartButton = true;
+    }
+  }
+
+  resetFieldPosition(){
+    this.currentPosition = 1;
+    this.activePositions = [2, 3];
+    this.showRestartButton = false;
   }
 }
