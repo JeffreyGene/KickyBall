@@ -10,7 +10,8 @@ import { Key } from 'protractor';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  ROUND_TIME: number = 300
+  ROUND_TIME: number = 300;
+  NUMBER_OF_ROUNDS: number = 6;
   controllers: Controllers;
   positions: FieldPositionModel[];
   currentPosition: number = 1;
@@ -18,11 +19,13 @@ export class HomeComponent {
   showRestartButton: boolean = false;
   gameStarted: boolean = false;
   roundStarted: boolean = false;
+  roundNumber: number = 0;
   timerSubscription: Subscription;
   timeLeftForRound: number = this.ROUND_TIME;
   goalsThisRound: number = 0;
   endPositionsThisRound: number[] = [];
   scoreText: string = null;
+  totalGoals: number = 0;
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -44,24 +47,26 @@ export class HomeComponent {
     }
   }
 
-  moveWithKeys(direction){
-    console.log(direction);
-  }
-
   startGame(){
     this.gameStarted = true;
+    this.totalGoals = 0;
+    this.roundNumber = 0;
     this.startRound();
   }
 
   startRound(){
     this.resetFieldPosition();
+    this.roundNumber++;
     this.timeLeftForRound = this.ROUND_TIME;
     this.goalsThisRound = 0;
     this.endPositionsThisRound = [];
     this.roundStarted = true;
     this.timerSubscription = timer(0, 1000).subscribe(seconds =>  {
       this.timeLeftForRound--;
-      if(this.timeLeftForRound == 0){
+      if(this.timeLeftForRound == 0 && this.roundNumber == this.NUMBER_OF_ROUNDS){
+        this.endGame();
+      }
+      else if(this.timeLeftForRound == 0){
         this.endRound();
       }
     });
@@ -99,6 +104,7 @@ export class HomeComponent {
     if(!this.endPositionsThisRound.some(p => p == fieldPositionId)){
       this.scoreText = 'GOAL!';
       this.goalsThisRound++;
+      this.totalGoals++;
     }
     this.endPositionsThisRound.push(fieldPositionId);
   }

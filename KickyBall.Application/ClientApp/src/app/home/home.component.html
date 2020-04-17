@@ -4,6 +4,8 @@
       <span class="scoreboard-section">Time Remaining: {{getTimeRemaining()}}</span>
       <span class="scoreboard-section">Goals: {{goalsThisRound}}</span>
       <span class="scoreboard-section" *ngIf="scoreText != null">{{scoreText}}</span>
+      <span class="scoreboard-section">Round Number: {{roundNumber}}/{{NUMBER_OF_ROUNDS}}</span>
+      <span class="scoreboard-section">Total Goals: {{totalGoals}}</span>
     </h2>
   </div>
   <div dir="rtl">
