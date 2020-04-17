@@ -1,9 +1,19 @@
 <div class="field">
-  <div *ngFor="let position of positions" class="position-wrapper" [style.width.%]="getWidth(position.fieldPositionId)">
-    <button [disabled]="isPositionDisabled(position.fieldPositionId)" class="choice-button" (click)="moveToPosition(position)">
-      {{position.fieldPositionId}}
-      <span *ngIf="position.fieldPositionId == currentPosition">SOCCER BALL</span>
-    </button>
+  <div class="scoreboard">
+    <h2>
+      <span class="scoreboard-section">Time Remaining: {{getTimeRemaining()}}</span>
+      <span class="scoreboard-section">Goals: {{goalsThisRound}}</span>
+      <span class="scoreboard-section" *ngIf="scoreText != null">{{scoreText}}</span>
+    </h2>
   </div>
-  <button *ngIf="showRestartButton" (click)="resetFieldPosition()" class="restart-button">Restart</button>
+  <div dir="rtl">
+    <div *ngFor="let position of positions" class="position-wrapper" [style.width.%]="getWidth(position.fieldPositionId)">
+      <button [class.acitve-position]="position.fieldPositionId == currentPosition" [disabled]="isPositionDisabled(position.fieldPositionId)" class="choice-button" (click)="moveToPosition(position)">
+        {{position.fieldPositionId}}
+      </button>
+    </div>
+  </div>
+  <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
+  <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button">Start Round</button>
+  <button *ngIf="showRestartButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
 </div>

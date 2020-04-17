@@ -6,11 +6,15 @@
 }
 
 .choice-button {
-  border: solid white 5px;
-  background-color: green;
+  background-color: lightblue;
+  border: solid black 5px;
   border-radius: 30px;
   width: 60px;
   height: 60px;
+  &:disabled {
+    border: solid white 5px;
+    background-color: green;
+  }
 }
 
 .field {
@@ -20,7 +24,7 @@
   text-align: center;
 }
 
-.restart-button {
+.game-options-button {
   margin: 15px;
   text-align: center;
   background-color: lightblue;
@@ -29,4 +33,17 @@
   border-radius: 30px;
   width: 120px;
   height: 60px;
+}
+
+.scoreboard {
+}
+
+.scoreboard-section{
+  padding: 15px;
+}
+
+.acitve-position{
+  background-color: black !important;
+  border: solid black 5px !important;
+  color: white !important;
 }
