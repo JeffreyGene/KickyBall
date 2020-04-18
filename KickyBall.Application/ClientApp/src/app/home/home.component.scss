@@ -35,7 +35,16 @@
   height: 60px;
 }
 
-.scoreboard {
+.score-text {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .75);
+  padding: 15px 0px;
+  margin-top: 175px;
+  color: white;
+  font-size: xxx-large;
+  z-index: 100;
 }
 
 .scoreboard-section{
@@ -46,4 +55,14 @@
   background-color: black !important;
   border: solid black 5px !important;
   color: white !important;
+}
+
+.scoreboard {
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  padding: 15px;
+}
+
+.game-actions {
+  
 }

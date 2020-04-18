@@ -16,7 +16,7 @@ export class HomeComponent {
   positions: FieldPositionModel[];
   currentPosition: number = 1;
   activePositions: number[] = [2, 3];
-  showRestartButton: boolean = false;
+  showResetButton: boolean = false;
   gameStarted: boolean = false;
   roundStarted: boolean = false;
   roundNumber: number = 0;
@@ -75,7 +75,7 @@ export class HomeComponent {
   endRound(){
     this.timerSubscription.unsubscribe();
     this.roundStarted = false;
-    this.showRestartButton = false;
+    this.showResetButton = false;
   }
 
   endGame(){
@@ -110,14 +110,14 @@ export class HomeComponent {
   }
 
   moveToPosition(position: FieldPositionModel){
-    if(!this.roundStarted){
+    if(!this.roundStarted || position == null){
       return;
     }
     this.currentPosition = position.fieldPositionId;
     this.activePositions = [position.leftFieldPositionId, position.rightFieldPositionId];
     if(this.currentPosition > 31){
       //Save last position and restart
-      this.showRestartButton = true;
+      this.showResetButton = true;
       this.setScore(this.currentPosition)
     }
   }
@@ -125,7 +125,7 @@ export class HomeComponent {
   resetFieldPosition(){
     this.currentPosition = 1;
     this.activePositions = [2, 3];
-    this.showRestartButton = false;
+    this.showResetButton = false;
     this.scoreText = null;
   }
 }

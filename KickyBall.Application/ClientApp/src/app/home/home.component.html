@@ -1,9 +1,9 @@
 <div class="field">
+  <div class="score-text" *ngIf="scoreText != null">{{scoreText}}</div>
   <div class="scoreboard">
     <h2>
       <span class="scoreboard-section">Time Remaining: {{getTimeRemaining()}}</span>
       <span class="scoreboard-section">Goals: {{goalsThisRound}}</span>
-      <span class="scoreboard-section" *ngIf="scoreText != null">{{scoreText}}</span>
       <span class="scoreboard-section">Round Number: {{roundNumber}}/{{NUMBER_OF_ROUNDS}}</span>
       <span class="scoreboard-section">Total Goals: {{totalGoals}}</span>
     </h2>
@@ -15,7 +15,9 @@
       </button>
     </div>
   </div>
-  <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
-  <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button">Start Round</button>
-  <button *ngIf="showRestartButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
+  <div class="game-options">
+    <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
+    <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button">Start Round</button>
+    <button *ngIf="showResetButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
+  </div>
 </div>
