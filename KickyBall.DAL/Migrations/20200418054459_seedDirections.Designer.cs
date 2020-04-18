@@ -4,14 +4,16 @@ using KickyBall.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KickyBall.DAL.Migrations
 {
     [DbContext(typeof(KickyBallContext))]
-    partial class KickyBallContextModelSnapshot : ModelSnapshot
+    [Migration("20200418054459_seedDirections")]
+    partial class seedDirections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
