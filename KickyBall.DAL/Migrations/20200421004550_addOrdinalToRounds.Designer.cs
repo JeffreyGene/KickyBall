@@ -4,14 +4,16 @@ using KickyBall.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KickyBall.DAL.Migrations
 {
     [DbContext(typeof(KickyBallContext))]
-    partial class KickyBallContextModelSnapshot : ModelSnapshot
+    [Migration("20200421004550_addOrdinalToRounds")]
+    partial class addOrdinalToRounds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,14 +79,8 @@ namespace KickyBall.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Ordinal")
-                        .HasColumnType("int");
-
                     b.Property<int>("RoundId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("ScoredGoal")
-                        .HasColumnType("bit");
 
                     b.HasKey("GoalAttemptId");
 

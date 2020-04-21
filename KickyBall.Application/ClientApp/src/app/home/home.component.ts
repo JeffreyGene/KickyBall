@@ -3,6 +3,11 @@ import { Controllers } from 'src/controllers/controllers';
 import { FieldPositionModel } from 'src/models/field-position.model';
 import { timer, Observable, Subscription } from 'rxjs';
 import { Key } from 'protractor';
+import { GameModel } from 'src/models/game.model';
+import { RoundModel } from 'src/models/round.model';
+import { GoalAttemptModel } from 'src/models/goal-attempt.model';
+import { MODULE_MAP } from '@nguniversal/module-map-ngfactory-loader';
+import { MoveModel } from 'src/models/move.model';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +15,7 @@ import { Key } from 'protractor';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  ROUND_TIME: number = 300;
+  ROUND_TIME: number = 15;
   NUMBER_OF_ROUNDS: number = 6;
   controllers: Controllers;
   positions: FieldPositionModel[];
@@ -26,6 +31,11 @@ export class HomeComponent {
   endPositionsThisRound: number[] = [];
   scoreText: string = null;
   totalGoals: number = 0;
+  currentGame: GameModel;
+  currentRound: RoundModel;
+  currentGoalAttempt: GoalAttemptModel;
+  moveNumber: number;
+  goalAttemptNumber: number;
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -48,27 +58,41 @@ export class HomeComponent {
   }
 
   startGame(){
-    this.gameStarted = true;
-    this.totalGoals = 0;
-    this.roundNumber = 0;
-    this.startRound();
+    let newGame = new GameModel();
+    newGame.personId = 1;
+    newGame.rounds = [];
+    this.controllers.gameController.CreateGame(newGame).subscribe(g => {
+      this.currentGame = g;
+      this.gameStarted = true;
+      this.totalGoals = 0;
+      this.roundNumber = 0;
+      this.startRound();
+    });
   }
 
   startRound(){
-    this.resetFieldPosition();
+    this.goalAttemptNumber = 1;
     this.roundNumber++;
     this.timeLeftForRound = this.ROUND_TIME;
     this.goalsThisRound = 0;
     this.endPositionsThisRound = [];
     this.roundStarted = true;
-    this.timerSubscription = timer(0, 1000).subscribe(seconds =>  {
-      this.timeLeftForRound--;
-      if(this.timeLeftForRound == 0 && this.roundNumber == this.NUMBER_OF_ROUNDS){
-        this.endGame();
-      }
-      else if(this.timeLeftForRound == 0){
-        this.endRound();
-      }
+    this.currentRound = new RoundModel();
+    this.currentRound.gameId = this.currentGame.gameId;
+    this.currentRound.ordinal = this.roundNumber;
+    this.controllers.gameController.CreateRound(this.currentRound).subscribe(r => {
+      this.currentRound = r;
+      this.resetFieldPosition();
+      this.currentGame.rounds.push(r);
+      this.timerSubscription = timer(0, 1000).subscribe(seconds =>  {
+        this.timeLeftForRound--;
+        if(this.timeLeftForRound == 0 && this.roundNumber == this.NUMBER_OF_ROUNDS){
+          this.endGame();
+        }
+        else if(this.timeLeftForRound == 0){
+          this.endRound();
+        }
+      });
     });
   }
 
@@ -100,19 +124,40 @@ export class HomeComponent {
   }
 
   setScore(fieldPositionId){
-    this.scoreText = 'No goal.'
+    this.scoreText = 'No goal.';
+    this.currentGoalAttempt.scoredGoal = false;
     if(!this.endPositionsThisRound.some(p => p == fieldPositionId)){
       this.scoreText = 'GOAL!';
       this.goalsThisRound++;
       this.totalGoals++;
+      this.currentGoalAttempt.scoredGoal = true;
     }
+    this.controllers.gameController.CreateGoalAttempt(this.currentGoalAttempt).subscribe(a => {
+      console.log(a);
+    });
     this.endPositionsThisRound.push(fieldPositionId);
+  }
+
+  getDirection(fieldPositionId){
+    let position = this.positions.find(p => p.fieldPositionId == this.currentPosition);
+    if(fieldPositionId == position.leftFieldPositionId){
+      return 1;
+    }
+    else if(fieldPositionId == position.rightFieldPositionId){
+      return 2;
+    }
+    return null;
   }
 
   moveToPosition(position: FieldPositionModel){
     if(!this.roundStarted || position == null){
       return;
     }
+    let move = new MoveModel();
+    move.ordinal = this.moveNumber;
+    move.directionId = this.getDirection(position.fieldPositionId);
+    this.currentGoalAttempt.moves.push(move);
+    this.moveNumber++;
     this.currentPosition = position.fieldPositionId;
     this.activePositions = [position.leftFieldPositionId, position.rightFieldPositionId];
     if(this.currentPosition > 31){
@@ -127,5 +172,11 @@ export class HomeComponent {
     this.activePositions = [2, 3];
     this.showResetButton = false;
     this.scoreText = null;
+    this.currentGoalAttempt = new GoalAttemptModel();
+    this.currentGoalAttempt.moves = [];
+    this.currentGoalAttempt.roundId = this.currentRound.roundId;
+    this.currentGoalAttempt.ordinal = this.goalAttemptNumber;
+    this.moveNumber = 1;
+    this.goalAttemptNumber++;
   }
 }
