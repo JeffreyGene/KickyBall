@@ -16,10 +16,10 @@ namespace KickyBall.Application.Controllers
     [Route("api/[controller]/[action]")]
     public class GameController : ControllerBase
     {
-        private readonly ILogger<FieldPositionController> _logger;
+        private readonly ILogger<GameController> _logger;
         private readonly IGameService _service;
 
-        public GameController(ILogger<FieldPositionController> logger, IGameService service)
+        public GameController(ILogger<GameController> logger, IGameService service)
         {
             _logger = logger;
             _service = service;

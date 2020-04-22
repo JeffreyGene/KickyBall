@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Controllers } from 'src/controllers/controllers';
+import { PersonModel } from 'src/models/person.model';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,6 +9,16 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  controllers: Controllers;
+  currentUser: PersonModel;
+
+  constructor(controllers: Controllers){
+    this.controllers = controllers;
+
+    this.controllers.authenticationController.currentUser.subscribe(p => {
+      this.currentUser = p;
+    })
+  }
 
   collapse() {
     this.isExpanded = false;

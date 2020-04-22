@@ -11,7 +11,7 @@ namespace KickyBall.DAL.Models
     {
         public int GameId { get; set; }
         public int PersonId { get; set; }
-        public Person Person { get; set; }
+        public User Person { get; set; }
         public List<Round> Rounds { get; set; }
     }
 }
