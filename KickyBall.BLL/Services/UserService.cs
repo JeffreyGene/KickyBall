@@ -31,11 +31,12 @@ namespace KickyBall.BLL.Services
 
         public User Register(RegistrationRequest request)
         {
-            string hashedRegistrationCode = _passwordHasher.HashPassword(request.RegistrationCode);
-            if(hashedRegistrationCode == null)
-            {
+            // Need to authenticate the registration code
+            //string hashedRegistrationCode = _passwordHasher.HashPassword(request.RegistrationCode);
+            //if(hashedRegistrationCode == null)
+            //{
 
-            }
+            //}
             User newUser = new User { UserName = request.Username, Password = request.Password, FirstName = request.FirstName, LastName = request.LastName };
             _context.Users.Add(newUser);
             return newUser;

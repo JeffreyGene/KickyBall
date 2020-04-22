@@ -12,6 +12,7 @@ import { Controllers } from 'src/controllers/controllers';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from './helpers/auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AuthGuard } from './helpers/auth.guard';
     NavMenuComponent,
     HomeComponent,
     AdminComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,6 +32,7 @@ import { AuthGuard } from './helpers/auth.guard';
       { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
     ])
   ],
   providers: [

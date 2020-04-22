@@ -30,6 +30,13 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="registrationCode">Registration Code</label>
+        <input type="password" formControlName="registrationCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.registrationCode.errors }" />
+        <div *ngIf="submitted && f.registrationCode.errors" class="invalid-feedback">
+            <div *ngIf="f.registrationCode.errors.required">Registration Code is required</div>
+        </div>
+    </div>
+    <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Register

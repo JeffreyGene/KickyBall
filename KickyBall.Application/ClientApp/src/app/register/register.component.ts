@@ -26,7 +26,8 @@ export class RegisterComponent implements OnInit {
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
             username: ['', Validators.required],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            registrationCode: ['', [Validators.required]]
         });
     }
 
@@ -45,7 +46,12 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        this.controllers.userController.Register('','','')
+        this.controllers.userController.Register(
+            this.registerForm.controls['username'].value, 
+            this.registerForm.controls['password'].value, 
+            this.registerForm.controls['firstName'].value, 
+            this.registerForm.controls['lastName'].value, 
+            this.registerForm.controls['registrationCode'].value)
             .pipe(first())
             .subscribe(
                 data => {

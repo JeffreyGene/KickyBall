@@ -19,7 +19,7 @@ export class UserController {
         return this.http.get<PersonModel[]>(this.baseUrl + 'GetPersons');
     }
 
-    Register(username, password, registrationCode) {
-        return this.http.post<any>(`api/User/Register`, { username, password, registrationCode });
+    Register(username, password, firstName, lastName, registrationCode) {
+        return this.http.post<any>(`api/User/Register`, { username, password, registrationCode, firstName, lastName });
     }
 }
