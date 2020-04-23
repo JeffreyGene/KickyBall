@@ -25,8 +25,13 @@ namespace KickyBall.BLL.Services
 
         public User Authenticate(AuthenticationRequest request)
         {
-            string hashedPassword = _passwordHasher.HashPassword(request.Password);
-            return _context.Users.FirstOrDefault(u => u.UserName == request.Username && u.Password == hashedPassword);
+            User user = _context.Users.FirstOrDefault(u => u.UserName == request.Username);
+            var result = _passwordHasher.VerifyHashedPassword(user?.Password, request.Password);
+            if (result == PasswordVerificationResult.Failed)
+            {
+                throw new Exception("Not Authorized");
+            }
+            return user;
         }
 
         public User Register(RegistrationRequest request)
@@ -37,8 +42,9 @@ namespace KickyBall.BLL.Services
             //{
 
             //}
-            User newUser = new User { UserName = request.Username, Password = request.Password, FirstName = request.FirstName, LastName = request.LastName };
+            User newUser = new User { UserName = request.Username, Password = _passwordHasher.HashPassword(request.Password), FirstName = request.FirstName, LastName = request.LastName };
             _context.Users.Add(newUser);
+            _context.SaveChanges();
             return newUser;
         }
 

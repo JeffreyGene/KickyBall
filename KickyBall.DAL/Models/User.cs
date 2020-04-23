@@ -20,7 +20,7 @@ namespace KickyBall.DAL.Models
         [StringLength(50)]
         public string UserName { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string Password { get; set; }
 
         public List<Game> Games { get; set; }
