@@ -1,5 +1,7 @@
+@import "../../styles.scss";
+
 h2, form {
-    background-color: darkgreen;
+    background-color: $background-color;
     color: white;
     margin: 0px;
     padding-left: calc(50% - 150px);

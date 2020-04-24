@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KickyBall.BLL.Interfaces;
+using KickyBall.BLL.Requests;
 using KickyBall.BLL.Services;
 using KickyBall.DAL;
 using KickyBall.DAL.Models;
@@ -26,15 +27,27 @@ namespace KickyBall.Application.Controllers
         }
 
         [HttpGet]
-        public Game GetGame()
+        public Game GetCurrentGame(int userId)
         {
-            return _service.GetGame();
+            return _service.GetCurrentGame(userId);
+        }
+
+        [HttpGet]
+        public int GetGameGoals(int gameId)
+        {
+            return _service.GetGameGoals(gameId);
+        }
+
+        [HttpGet]
+        public int GetRoundGoals(int roundId)
+        {
+            return _service.GetRoundGoals(roundId);
         }
 
         [HttpPost]
-        public GoalAttempt CreateGoalAttempt(GoalAttempt goalAttempt)
+        public GoalAttempt RecordGoalAttempt(RecordGoalAttemptRequest request)
         {
-            return _service.CreateGoalAttempt(goalAttempt);
+            return _service.RecordGoalAttempt(request);
         }
 
         [HttpPost]
@@ -44,9 +57,21 @@ namespace KickyBall.Application.Controllers
         }
 
         [HttpPost]
+        public bool FinishRound([FromBody]int roundId)
+        {
+            return _service.FinishRound(roundId);
+        }
+
+        [HttpPost]
         public Game CreateGame(Game game)
         {
             return _service.CreateGame(game);
+        }
+
+        [HttpPost]
+        public bool FinishGame([FromBody]int gameId)
+        {
+            return _service.FinishGame(gameId);
         }
     }
 }

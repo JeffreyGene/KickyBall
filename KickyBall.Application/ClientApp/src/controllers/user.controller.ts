@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { FieldPositionModel } from "src/models/field-position.model";
-import { GameModel } from "src/models/game.model";
-import { RoundModel } from "src/models/round.model";
-import { GoalAttemptModel } from "src/models/goal-attempt.model";
+import { Game } from "src/models/game.model";
+import { Round } from "src/models/round.model";
+import { GoalAttempt } from "src/models/goal-attempt.model";
 import { User } from "src/models/user.model";
 
 export class UserController {

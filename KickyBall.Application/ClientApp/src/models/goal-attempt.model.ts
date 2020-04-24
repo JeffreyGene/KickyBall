@@ -1,6 +1,6 @@
 import { MoveModel } from "./move.model";
 
-export class GoalAttemptModel {
+export class GoalAttempt {
     public goalAttemptId: number;
     public roundId: number;
     public ordinal: number;

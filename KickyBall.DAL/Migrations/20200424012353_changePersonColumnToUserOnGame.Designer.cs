@@ -4,14 +4,16 @@ using KickyBall.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KickyBall.DAL.Migrations
 {
     [DbContext(typeof(KickyBallContext))]
-    partial class KickyBallContextModelSnapshot : ModelSnapshot
+    [Migration("20200424012353_changePersonColumnToUserOnGame")]
+    partial class changePersonColumnToUserOnGame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,9 +61,6 @@ namespace KickyBall.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Finished")
-                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -128,19 +127,10 @@ namespace KickyBall.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Finished")
-                        .HasColumnType("bit");
-
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
                     b.Property<int>("Ordinal")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Practice")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SecondsRemaining")
                         .HasColumnType("int");
 
                     b.HasKey("RoundId");

@@ -21,3 +21,8 @@
     <button *ngIf="showResetButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
   </div>
 </div>
+<div *ngIf="paused" class="pause-wrapper">
+  <h2>Paused</h2>
+  <p>Please press continue when you are ready.</p>
+  <button (click)="unPause()">Continue</button>
+</div>

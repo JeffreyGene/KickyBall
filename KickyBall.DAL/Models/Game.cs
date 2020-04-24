@@ -10,8 +10,9 @@ namespace KickyBall.DAL.Models
     public class Game
     {
         public int GameId { get; set; }
-        public int PersonId { get; set; }
-        public User Person { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public bool Finished { get; set; }
         public List<Round> Rounds { get; set; }
     }
 }

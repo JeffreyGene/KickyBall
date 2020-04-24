@@ -3,9 +3,10 @@
 /* Provide sufficient contrast against white background */
 
 $primary-color: lightblue;
+$background-color: darkgreen;
 
 html {
-  background-color: darkgreen;
+  background-color: $background-color;
 }
 
 a {
@@ -37,15 +38,15 @@ code {
 
 .btn-secondary {
   color: white;
-  background-color: darkgreen;
+  background-color: $background-color;
   border-color: white;
   margin: 10px;
 }
 
 .btn-warning {
   color: white;
-  background-color: darkgreen;
-  border-color: darkgreen;
+  background-color: $background-color;
+  border-color: $background-color;
   margin: 10px;
 }
 

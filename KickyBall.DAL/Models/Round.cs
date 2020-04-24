@@ -13,6 +13,9 @@ namespace KickyBall.DAL.Models
         public int GameId { get; set; }
         public Game Game { get; set; }
         public int Ordinal { get; set; }
+        public bool Finished { get; set; }
+        public bool Practice { get; set; }
+        public int SecondsRemaining { get; set; }
         public List<GoalAttempt> GoalAttempts { get; set; }
     }
 }

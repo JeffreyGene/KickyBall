@@ -1,8 +1,9 @@
 import { MoveModel } from "./move.model";
-import { RoundModel } from "./round.model";
+import { Round } from "./round.model";
 
-export class GameModel {
+export class Game {
     public gameId: number;
-    public personId: number;
-    public rounds: RoundModel[];
+    public userId: number;
+    public finished: boolean;
+    public rounds: Round[];
 }

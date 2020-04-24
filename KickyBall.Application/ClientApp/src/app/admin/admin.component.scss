@@ -1,5 +1,7 @@
+@import "../../styles.scss";
+
 h2 {
-    background-color: darkgreen;
+    background-color: $background-color;
     color: white;
     margin: 0px;
     padding: 15px;
@@ -7,17 +9,21 @@ h2 {
 
 table {
     width: 100%;
-    background-color: darkgreen;
+    background-color: $background-color;
     color: white;
 }
 td, th {
     padding-left: 15px;
+    border-left: solid 1px white;
 }
 th {
-    padding-top: 15px;
     font-size: 20px;
 }
 
 tr:nth-child(even) {
     background-color: rgba(0, 0, 0, .75);
+}
+
+thead {
+    border-bottom: solid 1px white;
 }

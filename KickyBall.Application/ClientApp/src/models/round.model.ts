@@ -1,9 +1,11 @@
 import { MoveModel } from "./move.model";
-import { GoalAttemptModel } from "./goal-attempt.model";
+import { GoalAttempt } from "./goal-attempt.model";
 
-export class RoundModel {
+export class Round {
     public roundId: number;
     public gameId: number;
     public ordinal: number;
-    public goalAttempts: GoalAttemptModel[];
+    public secondsRemaining: number;
+    public finished: boolean = false;
+    public goalAttempts: GoalAttempt[];
 }
