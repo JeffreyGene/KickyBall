@@ -4,7 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Controllers } from 'src/controllers/controllers';
 
-@Component({ templateUrl: 'register.component.html' })
+@Component({ 
+    templateUrl: 'register.component.html',
+    styleUrls: ['register.component.scss']
+})
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;

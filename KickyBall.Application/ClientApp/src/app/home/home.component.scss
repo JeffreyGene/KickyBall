@@ -13,12 +13,12 @@
   height: 60px;
   &:disabled {
     border: solid white 5px;
-    background-color: green;
+    background-color: darkgreen;
   }
 }
 
 .field {
-  background-color: green;
+  background-color: darkgreen;
   height: 100%;
   width: 100%;
   text-align: center;

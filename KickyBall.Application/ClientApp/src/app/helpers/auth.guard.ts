@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Controllers } from 'src/controllers/controllers';
+import { userInfo } from 'os';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -11,14 +12,14 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.controllers.authenticationController.currentUserValue;
-        console.log('Current User');
-        console.log(currentUser);
         if (currentUser) {
-            // authorised so return true
-            return true;
+            let result: boolean = true;
+            if(route.url[0].path === 'admin'){
+                result = currentUser.isAdmin;
+            }
+            return result;
         }
 
-        // not logged in so redirect to login page with the return url
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
         return false;
     }

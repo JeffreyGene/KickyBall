@@ -18,10 +18,12 @@ namespace KickyBall.DAL.Models
         public string LastName { get; set; }
 
         [StringLength(50)]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [StringLength(250)]
         public string Password { get; set; }
+
+        public bool IsAdmin { get; set; }
 
         public List<Game> Games { get; set; }
     }

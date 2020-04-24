@@ -1,8 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
+
+$primary-color: lightblue;
+
 html {
-  background-color: green;
+  background-color: darkgreen;
 }
 
 a {
@@ -26,12 +29,25 @@ code {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  color: black;
+  background-color: $primary-color;
+  border-color: black;
+  margin: 10px;
 }
 
-$primary-color: lightblue;
+.btn-secondary {
+  color: white;
+  background-color: darkgreen;
+  border-color: white;
+  margin: 10px;
+}
+
+.btn-warning {
+  color: white;
+  background-color: darkgreen;
+  border-color: darkgreen;
+  margin: 10px;
+}
 
 .hoverable {
   position: relative;

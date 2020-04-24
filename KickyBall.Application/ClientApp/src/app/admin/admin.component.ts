@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Controllers } from 'src/controllers/controllers';
-import { PersonModel } from 'src/models/person.model';
+import { User } from 'src/models/user.model';
 
 @Component({
   selector: 'admin',
@@ -9,12 +9,12 @@ import { PersonModel } from 'src/models/person.model';
 })
 export class AdminComponent {
   controllers: Controllers;
-  persons: PersonModel[] = [];
+  users: User[] = [];
   constructor(controllers: Controllers) {
     this.controllers = controllers;
 
-    this.controllers.userController.GetPersons().subscribe(p => {
-      this.persons = p;
+    this.controllers.userController.GetUsers().subscribe(u => {
+      this.users = u;
     });
   }
 }

@@ -4,7 +4,7 @@ import { FieldPositionModel } from "src/models/field-position.model";
 import { GameModel } from "src/models/game.model";
 import { RoundModel } from "src/models/round.model";
 import { GoalAttemptModel } from "src/models/goal-attempt.model";
-import { PersonModel } from "src/models/person.model";
+import { User } from "src/models/user.model";
 
 export class UserController {
     private http: HttpClient;
@@ -15,8 +15,8 @@ export class UserController {
         this.baseUrl = 'api/User/';
     }
 
-    GetPersons(): Observable<PersonModel[]>{
-        return this.http.get<PersonModel[]>(this.baseUrl + 'GetPersons');
+    GetUsers(): Observable<User[]>{
+        return this.http.get<User[]>(this.baseUrl + 'GetUsers');
     }
 
     Register(username, password, firstName, lastName, registrationCode) {

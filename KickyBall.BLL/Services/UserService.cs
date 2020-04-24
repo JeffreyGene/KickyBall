@@ -25,7 +25,7 @@ namespace KickyBall.BLL.Services
 
         public User Authenticate(AuthenticationRequest request)
         {
-            User user = _context.Users.FirstOrDefault(u => u.UserName == request.Username);
+            User user = _context.Users.FirstOrDefault(u => u.Username == request.Username);
             var result = _passwordHasher.VerifyHashedPassword(user?.Password, request.Password);
             if (result == PasswordVerificationResult.Failed)
             {
@@ -42,7 +42,12 @@ namespace KickyBall.BLL.Services
             //{
 
             //}
-            User newUser = new User { UserName = request.Username, Password = _passwordHasher.HashPassword(request.Password), FirstName = request.FirstName, LastName = request.LastName };
+            bool isAdmin = false;
+            if(request.RegistrationCode == "WaterBender")
+            {
+                isAdmin = true;
+            }
+            User newUser = new User { Username = request.Username, Password = _passwordHasher.HashPassword(request.Password), FirstName = request.FirstName, LastName = request.LastName, IsAdmin = isAdmin };
             _context.Users.Add(newUser);
             _context.SaveChanges();
             return newUser;

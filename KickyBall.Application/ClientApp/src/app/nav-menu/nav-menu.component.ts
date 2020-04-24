@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { Controllers } from 'src/controllers/controllers';
-import { PersonModel } from 'src/models/person.model';
+import { User } from 'src/models/user.model';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+  styleUrls: ['./nav-menu.component.scss']
 })
 export class NavMenuComponent {
   isExpanded = false;
   controllers: Controllers;
-  currentUser: PersonModel;
+  currentUser: User;
 
   constructor(controllers: Controllers){
     this.controllers = controllers;

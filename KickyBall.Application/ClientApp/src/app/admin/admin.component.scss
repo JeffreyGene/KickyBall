@@ -1,0 +1,23 @@
+h2 {
+    background-color: darkgreen;
+    color: white;
+    margin: 0px;
+    padding: 15px;
+}
+
+table {
+    width: 100%;
+    background-color: darkgreen;
+    color: white;
+}
+td, th {
+    padding-left: 15px;
+}
+th {
+    padding-top: 15px;
+    font-size: 20px;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, .75);
+}
