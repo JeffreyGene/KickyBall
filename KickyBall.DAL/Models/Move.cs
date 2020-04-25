@@ -15,5 +15,7 @@ namespace KickyBall.DAL.Models
         public int Ordinal { get; set; }
         public int DirectionId { get; set; }
         public Direction Direction { get; set; }
+        public int FieldPositionId { get; set; }
+        public FieldPosition FieldPosition { get; set; }
     }
 }

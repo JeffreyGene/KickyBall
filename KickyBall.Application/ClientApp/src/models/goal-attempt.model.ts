@@ -1,9 +1,9 @@
-import { MoveModel } from "./move.model";
+import { Move } from "./move.model";
 
 export class GoalAttempt {
     public goalAttemptId: number;
     public roundId: number;
     public ordinal: number;
     public scoredGoal: boolean;
-    public moves: MoveModel[]; 
+    public moves: Move[]; 
 }

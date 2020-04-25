@@ -44,6 +44,18 @@ namespace KickyBall.Application.Controllers
             return _service.GetRoundGoals(roundId);
         }
 
+        [HttpGet]
+        public List<int> GetEndPositionsForRound(int roundId)
+        {
+            return _service.GetEndPositionsForRound(roundId);
+        }
+
+        [HttpGet]
+        public int GetGoalAttemptNumberForRound(int roundId)
+        {
+            return _service.GetGoalAttemptNumberForRound(roundId);
+        }
+
         [HttpPost]
         public GoalAttempt RecordGoalAttempt(RecordGoalAttemptRequest request)
         {

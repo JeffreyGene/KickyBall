@@ -28,6 +28,14 @@ export class GameController {
         return this.http.get<number>(this.baseUrl + 'GetRoundGoals?roundId=' + roundId);
     }
 
+    GetEndPositionsForRound(roundId: number): Observable<number[]>{
+        return this.http.get<number[]>(this.baseUrl + 'GetEndPositionsForRound?roundId=' + roundId);
+    }
+
+    GetGoalAttemptNumberForRound(roundId: number): Observable<number>{
+        return this.http.get<number>(this.baseUrl + 'GetGoalAttemptNumberForRound?roundId=' + roundId);
+    }
+
     CreateGame(game: Game): Observable<Game>{
         return this.http.post<Game>(this.baseUrl + 'CreateGame', game);
     }

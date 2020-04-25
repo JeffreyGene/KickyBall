@@ -1,4 +1,4 @@
-import { MoveModel } from "./move.model";
+import { Move } from "./move.model";
 import { Round } from "./round.model";
 
 export class Game {

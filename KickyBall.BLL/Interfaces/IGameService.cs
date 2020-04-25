@@ -16,5 +16,7 @@ namespace KickyBall.BLL.Interfaces
         bool FinishGame(int gameId);
         int GetGameGoals(int gameId);
         int GetRoundGoals(int roundId);
+        List<int> GetEndPositionsForRound(int roundId);
+        int GetGoalAttemptNumberForRound(int roundId);
     }
 }

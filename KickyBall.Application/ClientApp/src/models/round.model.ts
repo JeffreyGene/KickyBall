@@ -1,4 +1,4 @@
-import { MoveModel } from "./move.model";
+import { Move } from "./move.model";
 import { GoalAttempt } from "./goal-attempt.model";
 
 export class Round {

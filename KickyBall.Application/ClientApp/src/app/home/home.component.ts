@@ -7,7 +7,7 @@ import { Game } from 'src/models/game.model';
 import { Round } from 'src/models/round.model';
 import { GoalAttempt } from 'src/models/goal-attempt.model';
 import { MODULE_MAP } from '@nguniversal/module-map-ngfactory-loader';
-import { MoveModel } from 'src/models/move.model';
+import { Move } from 'src/models/move.model';
 import { RecordGoalAttemptRequest } from 'src/requests/recordGoalAttemptRequest';
 
 @Component({
@@ -16,8 +16,8 @@ import { RecordGoalAttemptRequest } from 'src/requests/recordGoalAttemptRequest'
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  ROUND_TIME: number = 15;
-  NUMBER_OF_ROUNDS: number = 6;
+  ROUND_TIME: number = 15;//Change to app setting
+  NUMBER_OF_ROUNDS: number = 6;//Change to app setting
   controllers: Controllers;
   positions: FieldPositionModel[];
   currentPosition: number = 1;
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private userId: number;
   gameOver: boolean = false;
   paused: boolean = false;
-
+  loadingCount: number = 0;
   constructor(controllers: Controllers) {
     this.controllers = controllers;
 
@@ -50,18 +50,35 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
+  updateLoadingCount(){
+    this.loadingCount--;
+  }
+
   initPreviousGame(game){
+    this.loadingCount = 4;
     this.paused = true;
     this.currentGame = game;
     this.currentRound = this.currentGame.rounds[game.rounds.length - 1];
     this.timeLeftForRound = this.currentRound.secondsRemaining;
     this.roundNumber = this.currentGame.rounds.length;
-    this.resetFieldPosition();
+    this.gameStarted = true;
+    this.roundStarted = true;
     this.controllers.gameController.GetGameGoals(this.currentGame.gameId).subscribe(g => {
       this.totalGoals = g;
+      this.updateLoadingCount();
     });
-    this.controllers.gameController.GetGameGoals(this.currentRound.roundId).subscribe(g => {
+    this.controllers.gameController.GetRoundGoals(this.currentRound.roundId).subscribe(g => {
       this.goalsThisRound = g;
+      this.updateLoadingCount();
+    });
+    this.controllers.gameController.GetEndPositionsForRound(this.currentRound.roundId).subscribe(p => {
+      this.endPositionsThisRound = p; 
+      this.updateLoadingCount();
+    });
+    this.controllers.gameController.GetGoalAttemptNumberForRound(this.currentRound.roundId).subscribe(a => {
+      this.goalAttemptNumber = a; 
+      this.resetFieldPosition();
+      this.updateLoadingCount();
     });
   }
   
@@ -153,7 +170,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.currentRound.secondsRemaining = this.ROUND_TIME;
     this.controllers.gameController.CreateRound(this.currentRound).subscribe(r => {
       this.currentRound = r;
-      console.log(this.currentRound);
       this.resetFieldPosition();
       this.currentGame.rounds.push(r);
       this.timerSubscription = this.initTimerSubscription();
@@ -227,9 +243,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(!this.roundStarted || position == null){
       return;
     }
-    let move = new MoveModel();
+    let move = new Move();
     move.ordinal = this.moveNumber;
     move.directionId = this.getDirection(position.fieldPositionId);
+    move.fieldPositionid = position.fieldPositionId;
     this.currentGoalAttempt.moves.push(move);
     this.moveNumber++;
     this.currentPosition = position.fieldPositionId;

@@ -35,21 +35,32 @@ namespace KickyBall.BLL.Services
 
         public int GetGameGoals(int gameId)
         {
-            return _context.Games.Where(g => g.GameId == gameId).Select(g => g.Rounds.Sum(r => GetRoundGoals(r.RoundId))).FirstOrDefault();
-        }
-
-        private int BoolToInt(bool scoredGoal)
-        {
-            if (scoredGoal)
-            {
-                return 1;
-            }
-            return 0;
+            return _context.Games
+                .Include(g => g.Rounds)
+                .ThenInclude(r => r.GoalAttempts)
+                .FirstOrDefault(g => g.GameId == gameId).Rounds.Sum(r => r.GoalAttempts.Count(a => a.ScoredGoal));
         }
 
         public int GetRoundGoals(int roundId)
         {
-           return _context.Rounds.Where(r => r.RoundId == roundId).Select(r => r.GoalAttempts.Sum(a => BoolToInt(a.ScoredGoal))).FirstOrDefault();
+           return _context.Rounds
+                .Include(r => r.GoalAttempts)
+                .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Count(a => a.ScoredGoal);
+        }
+
+        public List<int> GetEndPositionsForRound(int roundId)
+        {
+            return _context.Rounds
+                .Include(r => r.GoalAttempts)
+                .ThenInclude(a => a.Moves)
+                .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Select(a => a.Moves.OrderByDescending(m => m.Ordinal).FirstOrDefault().FieldPositionId).ToList();
+        }
+
+        public int GetGoalAttemptNumberForRound(int roundId)
+        {
+            return _context.Rounds
+                .Include(r => r.GoalAttempts)
+                .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Max(a => a.Ordinal) + 1;
         }
 
         public GoalAttempt RecordGoalAttempt(RecordGoalAttemptRequest request)
