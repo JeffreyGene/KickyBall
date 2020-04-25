@@ -7,5 +7,6 @@ export class Round {
     public ordinal: number;
     public secondsRemaining: number;
     public finished: boolean = false;
+    public practice: boolean;
     public goalAttempts: GoalAttempt[];
 }

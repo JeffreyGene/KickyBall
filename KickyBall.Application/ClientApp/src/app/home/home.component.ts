@@ -16,8 +16,11 @@ import { RecordGoalAttemptRequest } from 'src/requests/recordGoalAttemptRequest'
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  ROUND_TIME: number = 15;//Change to app setting
+  PRACTICE_ROUND_TIME: number = 10;//Change to app setting
+  ROUND_TIME: number = 12;//Change to app setting
+  NUMBER_OF_PRACTICE_ROUNDS: number = 2;//Change to app setting
   NUMBER_OF_ROUNDS: number = 6;//Change to app setting
+  TOTAL_NUMBER_OF_ROUNDS: number = this.NUMBER_OF_PRACTICE_ROUNDS + this.NUMBER_OF_ROUNDS;
   controllers: Controllers;
   positions: FieldPositionModel[];
   currentPosition: number = 1;
@@ -32,6 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   endPositionsThisRound: number[] = [];
   scoreText: string = null;
   totalGoals: number = 0;
+  practiceGoals: number = 0;
   currentGame: Game;
   currentRound: Round;
   currentGoalAttempt: GoalAttempt;
@@ -41,13 +45,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   gameOver: boolean = false;
   paused: boolean = false;
   loadingCount: number = 0;
+
   constructor(controllers: Controllers) {
     this.controllers = controllers;
-
-    this.controllers.fieldPositionController.GetFieldPositions().subscribe(positions => {
-      this.positions = positions;
-    });
-
   }
 
   updateLoadingCount(){
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   initPreviousGame(game){
-    this.loadingCount = 4;
+    this.loadingCount += 5;
     this.paused = true;
     this.currentGame = game;
     this.currentRound = this.currentGame.rounds[game.rounds.length - 1];
@@ -71,6 +71,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.goalsThisRound = g;
       this.updateLoadingCount();
     });
+    this.controllers.gameController.GetPracticeGoals(this.currentRound.gameId).subscribe(g => {
+      this.practiceGoals = g;
+      this.updateLoadingCount();
+    });
     this.controllers.gameController.GetEndPositionsForRound(this.currentRound.roundId).subscribe(p => {
       this.endPositionsThisRound = p; 
       this.updateLoadingCount();
@@ -83,9 +87,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit() {
+    this.loadingCount++;
+    this.controllers.fieldPositionController.GetFieldPositions().subscribe(positions => {
+      this.updateLoadingCount();
+      this.positions = positions;
+    });
+
     this.userId = this.controllers.authenticationController.currentUserValue.userId;
     //See if a current unfinished game exists
+    this.loadingCount++;
     this.controllers.gameController.GetCurrentGame(this.userId).subscribe(game => {
+      this.updateLoadingCount();
       if(game == null){
         return;
       }
@@ -147,7 +159,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return timer(0, 1000).subscribe(seconds =>  {
       if(!this.paused){
         this.timeLeftForRound--;
-        if(this.timeLeftForRound == 0 && this.roundNumber == this.NUMBER_OF_ROUNDS){
+        if(this.timeLeftForRound == 0 && this.roundNumber == this.TOTAL_NUMBER_OF_ROUNDS){
           this.endGame();
         }
         else if(this.timeLeftForRound == 0){
@@ -157,17 +169,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  initRoundSettings(){
+    this.currentRound.practice = this.roundNumber <= this.NUMBER_OF_PRACTICE_ROUNDS;
+    this.timeLeftForRound = this.currentRound.practice ? this.PRACTICE_ROUND_TIME : this.ROUND_TIME;
+    this.currentRound.secondsRemaining = this.timeLeftForRound;
+  }
+
   startRound(){
     this.goalAttemptNumber = 1;
     this.roundNumber++;
-    this.timeLeftForRound = this.ROUND_TIME;
+    this.currentRound = new Round();
+    this.initRoundSettings();
     this.goalsThisRound = 0;
     this.endPositionsThisRound = [];
     this.roundStarted = true;
-    this.currentRound = new Round();
     this.currentRound.gameId = this.currentGame.gameId;
     this.currentRound.ordinal = this.roundNumber;
-    this.currentRound.secondsRemaining = this.ROUND_TIME;
     this.controllers.gameController.CreateRound(this.currentRound).subscribe(r => {
       this.currentRound = r;
       this.resetFieldPosition();
@@ -217,13 +234,16 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.scoreText = 'GOAL!';
       this.goalsThisRound++;
       this.totalGoals++;
+      if(this.currentRound.practice){
+        this.practiceGoals++;
+      }
       this.currentGoalAttempt.scoredGoal = true;
     }
     let request = new RecordGoalAttemptRequest();
     request.goalAttempt = this.currentGoalAttempt;
     request.secondsRemaining = this.timeLeftForRound;
     this.controllers.gameController.RecordGoalAttempt(request).subscribe(a => {
-      console.log(a);
+      //Goal Recorded
     });
     this.endPositionsThisRound.push(fieldPositionId);
   }

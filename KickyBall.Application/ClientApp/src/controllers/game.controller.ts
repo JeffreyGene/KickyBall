@@ -24,6 +24,10 @@ export class GameController {
         return this.http.get<number>(this.baseUrl + 'GetGameGoals?gameId=' + gameId);
     }
 
+    GetPracticeGoals(gameId: number): Observable<number>{
+        return this.http.get<number>(this.baseUrl + 'GetPracticeGoals?gameId=' + gameId);
+    }
+
     GetRoundGoals(roundId: number): Observable<number>{
         return this.http.get<number>(this.baseUrl + 'GetRoundGoals?roundId=' + roundId);
     }

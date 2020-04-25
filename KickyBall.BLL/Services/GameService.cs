@@ -35,32 +35,45 @@ namespace KickyBall.BLL.Services
 
         public int GetGameGoals(int gameId)
         {
-            return _context.Games
+            //check null
+            return (int)_context.Games
                 .Include(g => g.Rounds)
                 .ThenInclude(r => r.GoalAttempts)
-                .FirstOrDefault(g => g.GameId == gameId).Rounds.Sum(r => r.GoalAttempts.Count(a => a.ScoredGoal));
+                .FirstOrDefault(g => g.GameId == gameId)?.Rounds?.Sum(r => r.GoalAttempts.Count(a => a.ScoredGoal));
+        }
+
+        public int GetPracticeGoals(int gameId)
+        {
+            //check null
+            return (int)_context.Games
+                .Include(g => g.Rounds)
+                .ThenInclude(r => r.GoalAttempts)
+                .FirstOrDefault(g => g.GameId == gameId)?.Rounds?.Where(r => r.Practice)?.Sum(r => r.GoalAttempts.Count(a => a.ScoredGoal));
         }
 
         public int GetRoundGoals(int roundId)
         {
-           return _context.Rounds
+            //check null
+            return (int)_context.Rounds
                 .Include(r => r.GoalAttempts)
-                .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Count(a => a.ScoredGoal);
+                .FirstOrDefault(r => r.RoundId == roundId)?.GoalAttempts?.Count(a => a.ScoredGoal);
         }
 
         public List<int> GetEndPositionsForRound(int roundId)
         {
+            //check null
             return _context.Rounds
                 .Include(r => r.GoalAttempts)
                 .ThenInclude(a => a.Moves)
-                .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Select(a => a.Moves.OrderByDescending(m => m.Ordinal).FirstOrDefault().FieldPositionId).ToList();
+                .FirstOrDefault(r => r.RoundId == roundId)?.GoalAttempts?.Select(a => a.Moves.OrderByDescending(m => m.Ordinal).FirstOrDefault().FieldPositionId)?.ToList();
         }
 
         public int GetGoalAttemptNumberForRound(int roundId)
         {
-            return _context.Rounds
+            //check null
+            return (int)_context.Rounds
                 .Include(r => r.GoalAttempts)
-                .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Max(a => a.Ordinal) + 1;
+                .FirstOrDefault(r => r.RoundId == roundId)?.GoalAttempts?.Max(a => a.Ordinal) + 1;
         }
 
         public GoalAttempt RecordGoalAttempt(RecordGoalAttemptRequest request)

@@ -39,6 +39,12 @@ namespace KickyBall.Application.Controllers
         }
 
         [HttpGet]
+        public int GetPracticeGoals(int gameId)
+        {
+            return _service.GetPracticeGoals(gameId);
+        }
+
+        [HttpGet]
         public int GetRoundGoals(int roundId)
         {
             return _service.GetRoundGoals(roundId);
