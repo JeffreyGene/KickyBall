@@ -227,17 +227,36 @@ export class HomeComponent implements OnInit, OnDestroy {
     return !this.activePositions.some(p => p == fieldPositionId);
   }
 
-  setScore(fieldPositionId){
-    this.scoreText = 'No goal.';
-    this.currentGoalAttempt.scoredGoal = false;
+  //50/50 chance of scoring
+  scoreForPractice(fieldPositionId){
+    let scored = Math.round(Math.random());
+    if(scored == 1){
+      this.scoreText = 'GOAL!';
+      this.goalsThisRound++;
+      this.totalGoals++;
+      this.practiceGoals++;
+      this.currentGoalAttempt.scoredGoal = true;
+    }
+  }
+  
+  //Score as long as you don't choose the same path you have done previously this round
+  scoreForNormal(fieldPositionId){
     if(!this.endPositionsThisRound.some(p => p == fieldPositionId)){
       this.scoreText = 'GOAL!';
       this.goalsThisRound++;
       this.totalGoals++;
-      if(this.currentRound.practice){
-        this.practiceGoals++;
-      }
       this.currentGoalAttempt.scoredGoal = true;
+    }
+  }
+
+  setScore(fieldPositionId){
+    this.scoreText = 'No goal.';
+    this.currentGoalAttempt.scoredGoal = false;
+    if(this.currentRound.practice){
+      this.scoreForPractice(fieldPositionId);
+    }
+    else{
+      this.scoreForNormal(fieldPositionId);
     }
     let request = new RecordGoalAttemptRequest();
     request.goalAttempt = this.currentGoalAttempt;
