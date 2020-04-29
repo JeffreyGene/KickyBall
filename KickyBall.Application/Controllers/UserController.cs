@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KickyBall.BLL.DTOs;
 using KickyBall.BLL.Interfaces;
 using KickyBall.BLL.Requests;
 using KickyBall.BLL.Services;
@@ -27,7 +28,7 @@ namespace KickyBall.Application.Controllers
         }
 
         [HttpPost]
-        public User Authenticate([FromBody]AuthenticationRequest request)
+        public AuthenticatedUser Authenticate([FromBody]AuthenticationRequest request)
         {
             return _service.Authenticate(request);
         }

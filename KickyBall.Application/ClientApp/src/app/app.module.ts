@@ -14,6 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from './helpers/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { ErrorInterceptor } from './helpers/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
     ])
   ],
   providers: [
-    Controllers
+    Controllers,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

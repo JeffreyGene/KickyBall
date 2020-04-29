@@ -1,4 +1,5 @@
-﻿using KickyBall.BLL.Requests;
+﻿using KickyBall.BLL.DTOs;
+using KickyBall.BLL.Requests;
 using KickyBall.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,8 @@ namespace KickyBall.BLL.Interfaces
     public interface IUserService
     {
         List<User> GetUsers();
-        User Authenticate(AuthenticationRequest request);
+        AuthenticatedUser Authenticate(AuthenticationRequest request);
         User Register(RegistrationRequest request);
+        User GetById(int userId);
     }
 }

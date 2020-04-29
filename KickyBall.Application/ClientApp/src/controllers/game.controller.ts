@@ -1,11 +1,9 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHandler } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { FieldPositionModel } from "src/models/field-position.model";
 import { Game } from "src/models/game.model";
 import { Round } from "src/models/round.model";
 import { GoalAttempt } from "src/models/goal-attempt.model";
 import { RecordGoalAttemptRequest } from "src/requests/recordGoalAttemptRequest";
-import { userInfo } from "os";
 
 export class GameController {
     private http: HttpClient;

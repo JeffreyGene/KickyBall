@@ -7,6 +7,7 @@ using KickyBall.BLL.Requests;
 using KickyBall.BLL.Services;
 using KickyBall.DAL;
 using KickyBall.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace KickyBall.Application.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]/[action]")]
     public class GameController : ControllerBase
     {

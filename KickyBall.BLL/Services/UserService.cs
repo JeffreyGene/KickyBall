@@ -1,13 +1,18 @@
-﻿using KickyBall.BLL.Interfaces;
+﻿using KickyBall.BLL.DTOs;
+using KickyBall.BLL.Interfaces;
 using KickyBall.BLL.Requests;
 using KickyBall.DAL;
 using KickyBall.DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,13 +22,15 @@ namespace KickyBall.BLL.Services
     {
         private KickyBallContext _context;
         private PasswordHasher _passwordHasher;
-        public UserService(KickyBallContext context, PasswordHasher passwordHasher)
+        private IConfiguration Configuration;
+        public UserService(KickyBallContext context, PasswordHasher passwordHasher, IConfiguration configuration)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            Configuration = configuration;
         }
 
-        public User Authenticate(AuthenticationRequest request)
+        public AuthenticatedUser Authenticate(AuthenticationRequest request)
         {
             User user = _context.Users.FirstOrDefault(u => u.Username == request.Username);
             var result = _passwordHasher.VerifyHashedPassword(user?.Password, request.Password);
@@ -31,7 +38,31 @@ namespace KickyBall.BLL.Services
             {
                 throw new Exception("Not Authorized");
             }
-            return user;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var secret = Configuration["Settings:Secret"];
+            var key = Encoding.ASCII.GetBytes(secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserId.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            // return basic user info and authentication token
+            return new AuthenticatedUser
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Token = tokenString,
+                IsAdmin = user.IsAdmin
+            };
         }
 
         public User Register(RegistrationRequest request)
@@ -56,6 +87,11 @@ namespace KickyBall.BLL.Services
         public List<User> GetUsers()
         {
             return _context.Users.ToList();
+        }
+
+        public User GetById(int userId)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserId == userId);
         }
     }
 }
