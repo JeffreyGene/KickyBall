@@ -1,5 +1,6 @@
 ﻿using KickyBall.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace KickyBall.DAL
@@ -16,7 +17,10 @@ namespace KickyBall.DAL
         public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=KickyBall;Trusted_Connection=True;");
+        {
+            //change this to use the app setting.
+            options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=KickyBall;Trusted_Connection=True;");
+        }
     }
 }
 
