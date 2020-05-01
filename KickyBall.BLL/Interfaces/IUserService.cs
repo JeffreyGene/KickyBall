@@ -11,7 +11,7 @@ namespace KickyBall.BLL.Interfaces
     {
         List<User> GetUsers();
         AuthenticatedUser Authenticate(AuthenticationRequest request);
-        User Register(RegistrationRequest request);
+        bool Register(RegistrationRequest request);
         User GetById(int userId);
     }
 }

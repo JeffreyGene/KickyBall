@@ -13,6 +13,7 @@ namespace KickyBall.DAL
         public DbSet<Move> Moves { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Round> Rounds { get; set; }
+        public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=KickyBall;Trusted_Connection=True;");

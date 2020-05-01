@@ -72,23 +72,28 @@ namespace KickyBall.BLL.Services
             };
         }
 
-        public User Register(RegistrationRequest request)
+        public bool Register(RegistrationRequest request)
         {
-            // Need to authenticate the registration code
-            //string hashedRegistrationCode = _passwordHasher.HashPassword(request.RegistrationCode);
-            //if(hashedRegistrationCode == null)
-            //{
-
-            //}
+            User currentUser = _context.Users.FirstOrDefault(u => u.Username == request.Username);
+            if(currentUser != null)
+            {
+                throw new Exception("Not a valid username.");
+            }
+            string registrationCode = _context.ApplicationSettings.FirstOrDefault(s => s.ApplicationSettingCode == "URC").Value;
+            string adminCode = _context.ApplicationSettings.FirstOrDefault(s => s.ApplicationSettingCode == "ARC").Value;
             bool isAdmin = false;
-            if(request.RegistrationCode == "WaterBender")
+            if(request.RegistrationCode == adminCode)
             {
                 isAdmin = true;
+            }
+            else if (request.RegistrationCode != registrationCode)
+            {
+                throw new Exception("Not a valid registration code.");
             }
             User newUser = new User { Username = request.Username, Password = _passwordHasher.HashPassword(request.Password), FirstName = request.FirstName, LastName = request.LastName, IsAdmin = isAdmin };
             _context.Users.Add(newUser);
             _context.SaveChanges();
-            return newUser;
+            return true;
         }
 
         public List<User> GetUsers()

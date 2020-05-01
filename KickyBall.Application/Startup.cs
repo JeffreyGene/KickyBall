@@ -1,6 +1,7 @@
 using KickyBall.BLL.Interfaces;
 using KickyBall.BLL.Services;
 using KickyBall.DAL;
+using KickyBall.DAL.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -96,6 +97,7 @@ namespace KickyBall.Application
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<PasswordHasher, PasswordHasher>();
+            services.AddScoped<IApplicationSettingService, ApplicationSettingService>();
 
             services.Configure<IISServerOptions>(options =>
             {

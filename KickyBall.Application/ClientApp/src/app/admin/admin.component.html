@@ -19,3 +19,21 @@
     </tr>
   </tbody>
 </table>
+<hr>
+<h2>KickyBall Settings</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Value</th>
+      <th>Enabled</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let setting of settings">
+      <td>{{setting.name}}</td>
+      <td><input type="text" [(ngModel)]="setting.value" class="form-control col-sm-12 setting-input" /><button class="btn btn-primary" (click)="updateSetting(setting)" [disabled]="!setting.value">Update Setting</button></td>
+      <td>{{setting.enabled}}</td>
+    </tr>
+  </tbody>
+</table>

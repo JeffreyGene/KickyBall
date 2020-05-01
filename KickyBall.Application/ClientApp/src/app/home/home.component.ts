@@ -16,11 +16,11 @@ import { RecordGoalAttemptRequest } from 'src/requests/recordGoalAttemptRequest'
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  PRACTICE_ROUND_TIME: number = 10;//Change to app setting
-  ROUND_TIME: number = 12;//Change to app setting
-  NUMBER_OF_PRACTICE_ROUNDS: number = 2;//Change to app setting
-  NUMBER_OF_ROUNDS: number = 6;//Change to app setting
-  TOTAL_NUMBER_OF_ROUNDS: number = this.NUMBER_OF_PRACTICE_ROUNDS + this.NUMBER_OF_ROUNDS;
+  PRACTICE_ROUND_TIME: number;
+  ROUND_TIME: number;
+  NUMBER_OF_PRACTICE_ROUNDS: number;
+  NUMBER_OF_ROUNDS: number;
+  TOTAL_NUMBER_OF_ROUNDS: number;
   controllers: Controllers;
   positions: FieldPositionModel[];
   currentPosition: number = 1;
@@ -87,10 +87,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit() {
-    this.loadingCount++;
+    this.loadingCount += 2;
     this.controllers.fieldPositionController.GetFieldPositions().subscribe(positions => {
-      this.updateLoadingCount();
       this.positions = positions;
+      this.updateLoadingCount();
+    });
+    this.controllers.applicationSettingController.GetGameSettings().subscribe(s => {
+      this.PRACTICE_ROUND_TIME = +s.find(s => s.applicationSettingCode === 'PRT').value;
+      this.ROUND_TIME = +s.find(s => s.applicationSettingCode === 'RT').value;
+      this.NUMBER_OF_PRACTICE_ROUNDS = +s.find(s => s.applicationSettingCode === 'NOPR').value;
+      this.NUMBER_OF_ROUNDS = +s.find(s => s.applicationSettingCode === 'NOR').value;
+      this.TOTAL_NUMBER_OF_ROUNDS = this.NUMBER_OF_PRACTICE_ROUNDS + this.NUMBER_OF_ROUNDS;
+      this.updateLoadingCount();
     });
 
     this.userId = this.controllers.authenticationController.currentUserValue.userId;

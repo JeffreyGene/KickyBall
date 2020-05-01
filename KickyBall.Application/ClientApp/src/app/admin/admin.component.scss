@@ -13,7 +13,7 @@ table {
     color: white;
 }
 td, th {
-    padding-left: 15px;
+    padding: 0px 15px;
     border-left: solid 1px white;
 }
 th {
@@ -21,9 +21,13 @@ th {
 }
 
 tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, .75);
+    background-color: darkgrey;
 }
 
 thead {
     border-bottom: solid 1px white;
+}
+
+.setting-input {
+    margin: 15px 0px 0px 0px;
 }

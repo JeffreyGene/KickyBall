@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KickyBall.Application.Controllers
 {
+    [Authorize(Policy = "KickyBallAdmin")]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class UserController : ControllerBase
@@ -28,19 +29,20 @@ namespace KickyBall.Application.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public AuthenticatedUser Authenticate([FromBody]AuthenticationRequest request)
         {
             return _service.Authenticate(request);
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        public User Register([FromBody]RegistrationRequest request)
+        public bool Register([FromBody]RegistrationRequest request)
         {
             return _service.Register(request);
         }
 
-        [Authorize(Policy = "KickyBallAdmin")]
         [HttpGet]
         public List<User> GetUsers()
         {

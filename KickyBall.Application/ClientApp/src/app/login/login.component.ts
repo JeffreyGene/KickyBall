@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        console.log(this.f);
         this.loading = true;
         this.controllers.authenticationController.login(this.f.username.value, this.f.password.value)
             .pipe(first())
