@@ -38,16 +38,23 @@ namespace KickyBall.BLL.Services
             {
                 throw new Exception("Not Authorized");
             }
+
+            // Setup JWT token for authentication
             var tokenHandler = new JwtSecurityTokenHandler();
             var secret = Configuration["Settings:Secret"];
             var key = Encoding.ASCII.GetBytes(secret);
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.UserId.ToString())
+            };
+            if (user.IsAdmin)
+            {
+                claims.Add(new Claim("kickyballAdmin", "true"));
+            }
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserId.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

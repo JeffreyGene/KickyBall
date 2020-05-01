@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace KickyBall.Application.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "AuthenticatedUser")]
     [Route("api/[controller]/[action]")]
     public class GameController : ControllerBase
     {

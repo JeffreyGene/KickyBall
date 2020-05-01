@@ -32,8 +32,8 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: WelcomeComponent, pathMatch: 'full' },
-      { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: '', component: WelcomeComponent },
+      { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },

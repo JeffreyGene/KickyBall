@@ -8,6 +8,7 @@ using KickyBall.BLL.Requests;
 using KickyBall.BLL.Services;
 using KickyBall.DAL;
 using KickyBall.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -39,6 +40,7 @@ namespace KickyBall.Application.Controllers
             return _service.Register(request);
         }
 
+        [Authorize(Policy = "KickyBallAdmin")]
         [HttpGet]
         public List<User> GetUsers()
         {

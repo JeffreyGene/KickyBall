@@ -3,6 +3,7 @@ using KickyBall.BLL.Services;
 using KickyBall.DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,8 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -55,6 +58,7 @@ namespace KickyBall.Application
                             // return unauthorized if user no longer exists
                             context.Fail("Unauthorized");
                         }
+
                         return Task.CompletedTask;
                     }
                 };
@@ -70,13 +74,13 @@ namespace KickyBall.Application
             });
 
             //Add authorization
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("AuthenticatedUser", policy =>
-            //           policy.RequireAuthenticatedUser());
-            //    options.AddPolicy("Admin", policy =>
-            //           policy.RequireClaim("IsAdmin", "true"));
-            //});
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AuthenticatedUser", policy =>
+                       policy.RequireAuthenticatedUser());
+                options.AddPolicy("KickyBallAdmin", policy =>
+                       policy.RequireClaim("kickyballAdmin", "true"));
+            });
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -17,6 +17,9 @@ export class AuthGuard implements CanActivate {
             if(route.url[0].path === 'admin'){
                 result = currentUser.isAdmin;
             }
+            if(!result){
+                this.router.navigate(['/']);
+            }
             return result;
         }
 
