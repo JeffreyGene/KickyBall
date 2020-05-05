@@ -6,4 +6,5 @@ export class GoalAttempt {
     public ordinal: number;
     public scoredGoal: boolean;
     public moves: Move[]; 
+    public routeId: number;
 }

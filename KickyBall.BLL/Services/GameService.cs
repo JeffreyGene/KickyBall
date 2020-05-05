@@ -59,13 +59,18 @@ namespace KickyBall.BLL.Services
                 .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Count(a => a.ScoredGoal);
         }
 
-        public List<int> GetEndPositionsForRound(int roundId)
+        public List<int> GetRouteIdsForGame(int gameId, int take)
         {
             //check null
-            return _context.Rounds
-                .Include(r => r.GoalAttempts)
-                .ThenInclude(a => a.Moves)
-                .FirstOrDefault(r => r.RoundId == roundId).GoalAttempts.Select(a => a.Moves.OrderByDescending(m => m.Ordinal).FirstOrDefault().FieldPositionId).ToList();
+            return _context.Games
+                .Include(g => g.Rounds)
+                .ThenInclude(r => r.GoalAttempts)
+                .FirstOrDefault(g => g.GameId == gameId)
+                .Rounds.Where(r => r.Practice == false)
+                .OrderByDescending(r => r.Ordinal)
+                .SelectMany(r => r.GoalAttempts.OrderByDescending(a => a.Ordinal).Select(a => a.RouteId))
+                .Take(take)
+                .ToList();
         }
 
         public int GetGoalAttemptNumberForRound(int roundId)
@@ -107,6 +112,7 @@ namespace KickyBall.BLL.Services
         }
         public Game CreateGame(Game game)
         {
+            game.StartTime = DateTime.Now;
             _context.Games.Add(game);
             _context.SaveChanges();
             return game;
@@ -116,6 +122,7 @@ namespace KickyBall.BLL.Services
         {
             Game game = _context.Games.FirstOrDefault(r => r.GameId == gameId);
             game.Finished = true;
+            game.EndTime = DateTime.Now;
             _context.SaveChanges();
             return true;
         }

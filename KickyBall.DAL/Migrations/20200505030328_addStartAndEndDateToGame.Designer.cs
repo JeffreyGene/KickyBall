@@ -4,14 +4,16 @@ using KickyBall.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KickyBall.DAL.Migrations
 {
     [DbContext(typeof(KickyBallContext))]
-    partial class KickyBallContextModelSnapshot : ModelSnapshot
+    [Migration("20200505030328_addStartAndEndDateToGame")]
+    partial class addStartAndEndDateToGame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,17 +118,12 @@ namespace KickyBall.DAL.Migrations
                     b.Property<int>("RoundId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RouteId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("ScoredGoal")
                         .HasColumnType("bit");
 
                     b.HasKey("GoalAttemptId");
 
                     b.HasIndex("RoundId");
-
-                    b.HasIndex("RouteId");
 
                     b.ToTable("GoalAttempts","KickyBall");
                 });
@@ -190,23 +187,6 @@ namespace KickyBall.DAL.Migrations
                     b.ToTable("Rounds","KickyBall");
                 });
 
-            modelBuilder.Entity("KickyBall.DAL.Models.Route", b =>
-                {
-                    b.Property<int>("RouteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(5)")
-                        .HasMaxLength(5);
-
-                    b.HasKey("RouteId");
-
-                    b.ToTable("Routes","KickyBall");
-                });
-
             modelBuilder.Entity("KickyBall.DAL.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -252,12 +232,6 @@ namespace KickyBall.DAL.Migrations
                     b.HasOne("KickyBall.DAL.Models.Round", "Round")
                         .WithMany("GoalAttempts")
                         .HasForeignKey("RoundId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KickyBall.DAL.Models.Route", "Route")
-                        .WithMany()
-                        .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

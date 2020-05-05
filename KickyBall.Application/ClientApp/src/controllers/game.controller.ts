@@ -30,12 +30,12 @@ export class GameController {
         return this.http.get<number>(this.baseUrl + 'GetRoundGoals?roundId=' + roundId);
     }
 
-    GetEndPositionsForRound(roundId: number): Observable<number[]>{
-        return this.http.get<number[]>(this.baseUrl + 'GetEndPositionsForRound?roundId=' + roundId);
+    GetRouteIdsForGame(gameId: number): Observable<number[]>{
+        return this.http.get<number[]>(this.baseUrl + 'GetRouteIdsForGame?gameId=' + gameId);
     }
 
-    GetGoalAttemptNumberForRound(roundId: number): Observable<number>{
-        return this.http.get<number>(this.baseUrl + 'GetGoalAttemptNumberForRound?roundId=' + roundId);
+    GetGoalAttemptNumberForRound(roundId: number, take: number): Observable<number>{
+        return this.http.get<number>(`${this.baseUrl}GetGoalAttemptNumberForRound?roundId=${roundId}&take=${take}` );
     }
 
     CreateGame(game: Game): Observable<Game>{

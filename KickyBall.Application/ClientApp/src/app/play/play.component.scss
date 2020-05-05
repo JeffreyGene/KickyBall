@@ -1,5 +1,12 @@
 @import "../../styles.scss";
 
+.fa-soccer-ball-o {
+  color: $primary-color;
+  background-color: black;
+  border-radius: 35px;
+  border: solid black 3px;
+}
+
 .pause-wrapper {
   position: absolute;
   top: 57px;
@@ -22,12 +29,12 @@
 
 .choice-button {
   background-color: lightblue;
-  border: solid black 1px;
+  border: solid black 3px;
   border-radius: 30px;
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   &:disabled {
-    border: solid white 1px;
+    border: solid white 3px;
     background-color: $background-color;
   }
 }
@@ -43,7 +50,7 @@
   margin: 15px;
   text-align: center;
   background-color: lightblue;
-  border: solid black 1px;
+  border: solid black 3px;
   font-weight: bold;
   border-radius: 30px;
   width: 120px;
@@ -66,10 +73,11 @@
   padding: 15px;
 }
 
-.acitve-position{
-  background-color: black !important;
-  border: solid black 1px !important;
-  color: white !important;
+.active-position{
+  padding: 0px;
+  background-color: $background-color !important;
+  border: none !important;
+  color:  none !important;
 }
 
 .scoreboard {

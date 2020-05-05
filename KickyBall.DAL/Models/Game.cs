@@ -13,6 +13,8 @@ namespace KickyBall.DAL.Models
         public int UserId { get; set; }
         public User User { get; set; }
         public bool Finished { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public List<Round> Rounds { get; set; }
     }
 }

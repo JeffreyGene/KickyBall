@@ -11,19 +11,20 @@ import { Move } from 'src/models/move.model';
 import { RecordGoalAttemptRequest } from 'src/requests/recordGoalAttemptRequest';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-play',
+  templateUrl: './play.component.html',
+  styleUrls: ['./play.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class PlayComponent implements OnInit, OnDestroy {
   PRACTICE_ROUND_TIME: number;
   ROUND_TIME: number;
   NUMBER_OF_PRACTICE_ROUNDS: number;
   NUMBER_OF_ROUNDS: number;
   TOTAL_NUMBER_OF_ROUNDS: number;
+  UNIQUE_ROUTES_TO_SCORE: number = 12;
   controllers: Controllers;
   positions: FieldPositionModel[];
-  currentPosition: number = 1;
+  currentFieldPositionId: number = 1;
   activePositions: number[] = [2, 3];
   showResetButton: boolean = false;
   gameStarted: boolean = false;
@@ -32,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   timerSubscription: Subscription;
   timeLeftForRound: number = this.ROUND_TIME;
   goalsThisRound: number = 0;
-  endPositionsThisRound: number[] = [];
+  routeIdsThisGame: number[] = [];
   scoreText: string = null;
   totalGoals: number = 0;
   practiceGoals: number = 0;
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   gameOver: boolean = false;
   paused: boolean = false;
   loadingCount: number = 0;
+  timeSinceLastAction: number = 0;
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -75,11 +77,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.practiceGoals = g;
       this.updateLoadingCount();
     });
-    this.controllers.gameController.GetEndPositionsForRound(this.currentRound.roundId).subscribe(p => {
-      this.endPositionsThisRound = p; 
+    this.controllers.gameController.GetRouteIdsForGame(this.currentGame.gameId).subscribe(p => {
+      this.routeIdsThisGame = p; 
       this.updateLoadingCount();
     });
-    this.controllers.gameController.GetGoalAttemptNumberForRound(this.currentRound.roundId).subscribe(a => {
+    this.controllers.gameController.GetGoalAttemptNumberForRound(this.currentRound.roundId, this.UNIQUE_ROUTES_TO_SCORE).subscribe(a => {
       this.goalAttemptNumber = a; 
       this.resetFieldPosition();
       this.updateLoadingCount();
@@ -141,7 +143,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   unPause() {
     this.paused = false;
     if(this.timeLeftForRound != 0){
-      this.timerSubscription = this.initTimerSubscription();
+      if(!this.timerSubscription){
+        this.timerSubscription = this.initTimerSubscription();
+      }
     }
     else {
       this.startRound();
@@ -167,6 +171,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     return timer(0, 1000).subscribe(seconds =>  {
       if(!this.paused){
         this.timeLeftForRound--;
+        this.timeSinceLastAction++;
+        if(this.timeSinceLastAction == 30){
+          this.paused = true;
+          this.timeSinceLastAction = 0;
+        }
         if(this.timeLeftForRound == 0 && this.roundNumber == this.TOTAL_NUMBER_OF_ROUNDS){
           this.endGame();
         }
@@ -181,6 +190,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.currentRound.practice = this.roundNumber <= this.NUMBER_OF_PRACTICE_ROUNDS;
     this.timeLeftForRound = this.currentRound.practice ? this.PRACTICE_ROUND_TIME : this.ROUND_TIME;
     this.currentRound.secondsRemaining = this.timeLeftForRound;
+    this.timeSinceLastAction = 0;
   }
 
   startRound(){
@@ -189,7 +199,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.currentRound = new Round();
     this.initRoundSettings();
     this.goalsThisRound = 0;
-    this.endPositionsThisRound = [];
     this.roundStarted = true;
     this.currentRound.gameId = this.currentGame.gameId;
     this.currentRound.ordinal = this.roundNumber;
@@ -236,7 +245,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   //50/50 chance of scoring
-  scoreForPractice(fieldPositionId){
+  scoreForPractice(){
     let scored = Math.round(Math.random());
     if(scored == 1){
       this.scoreText = 'GOAL!';
@@ -248,23 +257,38 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   
   //Score as long as you don't choose the same path you have done previously this round
-  scoreForNormal(fieldPositionId){
-    if(!this.endPositionsThisRound.some(p => p == fieldPositionId)){
+  scoreForNormal(){
+    if(!this.routeIdsThisGame.some(p => p == this.currentGoalAttempt.roundId)){
       this.scoreText = 'GOAL!';
       this.goalsThisRound++;
       this.totalGoals++;
       this.currentGoalAttempt.scoredGoal = true;
     }
+    this.routeIdsThisGame.push(this.currentGoalAttempt.routeId);
+    if(this.routeIdsThisGame.length > this.UNIQUE_ROUTES_TO_SCORE){
+      this.routeIdsThisGame.splice(0, this.routeIdsThisGame.length - this.UNIQUE_ROUTES_TO_SCORE);
+    }
   }
 
-  setScore(fieldPositionId){
+  getRouteId(){
+    let routeId = 0;
+    for(let i = 0; i++; i < this.currentGoalAttempt.moves.length){
+      if(this.currentGoalAttempt.moves[i].directionId == 1){
+        routeId += Math.pow(2, this.currentGoalAttempt.moves.length - i - 1);
+      }
+    }
+    return routeId + 1;
+  }
+
+  setScore(){
     this.scoreText = 'No goal.';
     this.currentGoalAttempt.scoredGoal = false;
+    this.currentGoalAttempt.routeId = this.getRouteId();
     if(this.currentRound.practice){
-      this.scoreForPractice(fieldPositionId);
+      this.scoreForPractice();
     }
     else{
-      this.scoreForNormal(fieldPositionId);
+      this.scoreForNormal();
     }
     let request = new RecordGoalAttemptRequest();
     request.goalAttempt = this.currentGoalAttempt;
@@ -272,11 +296,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.controllers.gameController.RecordGoalAttempt(request).subscribe(a => {
       //Goal Recorded
     });
-    this.endPositionsThisRound.push(fieldPositionId);
   }
 
   getDirection(fieldPositionId){
-    let position = this.positions.find(p => p.fieldPositionId == this.currentPosition);
+    let position = this.positions.find(p => p.fieldPositionId == this.currentFieldPositionId);
     if(fieldPositionId == position.leftFieldPositionId){
       return 1;
     }
@@ -290,23 +313,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(!this.roundStarted || position == null){
       return;
     }
+    this.timeSinceLastAction = 0;
     let move = new Move();
     move.ordinal = this.moveNumber;
     move.directionId = this.getDirection(position.fieldPositionId);
     move.fieldPositionid = position.fieldPositionId;
     this.currentGoalAttempt.moves.push(move);
     this.moveNumber++;
-    this.currentPosition = position.fieldPositionId;
+    this.currentFieldPositionId = position.fieldPositionId;
     this.activePositions = [position.leftFieldPositionId, position.rightFieldPositionId];
-    if(this.currentPosition > 31){
+    if(position.leftFieldPositionId == null && position.rightFieldPositionId == null){
       //Save last position and restart
       this.showResetButton = true;
-      this.setScore(this.currentPosition)
+      this.setScore();
     }
   }
 
   resetFieldPosition(){
-    this.currentPosition = 1;
+    this.currentFieldPositionId = 1;
     this.activePositions = [2, 3];
     this.showResetButton = false;
     this.scoreText = null;

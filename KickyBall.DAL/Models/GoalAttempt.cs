@@ -14,6 +14,8 @@ namespace KickyBall.DAL.Models
         public Round Round { get; set; }
         public bool ScoredGoal { get; set; }
         public int Ordinal { get; set; }
+        public int RouteId { get; set; }
+        public Route Route { get; set; }
         public List<Move> Moves { get; set; }
     }
 }

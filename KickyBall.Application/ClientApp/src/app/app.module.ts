@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+import { PlayComponent } from './play/play.component';
 import { AdminComponent } from './admin/admin.component';
 import { Controllers } from 'src/controllers/controllers';
 import { LoginComponent } from './login/login.component';
@@ -21,7 +21,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
+    PlayComponent,
     AdminComponent,
     LoginComponent,
     RegisterComponent
@@ -33,7 +33,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: WelcomeComponent },
-      { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+      { path: 'play', component: PlayComponent, canActivate: [AuthGuard] },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },

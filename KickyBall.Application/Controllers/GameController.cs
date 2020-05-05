@@ -53,9 +53,9 @@ namespace KickyBall.Application.Controllers
         }
 
         [HttpGet]
-        public List<int> GetEndPositionsForRound(int roundId)
+        public List<int> GetRouteIdsForGame(int gameId, int take)
         {
-            return _service.GetEndPositionsForRound(roundId);
+            return _service.GetRouteIdsForGame(gameId, take);
         }
 
         [HttpGet]

@@ -1,20 +1,18 @@
 <div class="field" *ngIf="!gameOver">
   <div class="score-text" *ngIf="scoreText != null">{{scoreText}}</div>
   <div class="scoreboard" *ngIf="gameStarted">
-    <h2 *ngIf="currentRound?.practice">Practice Round</h2>
     <h2>
       <span class="scoreboard-section">Time Remaining: {{getTimeRemaining()}}</span>
       <span class="scoreboard-section">Goals: {{goalsThisRound}}</span>
-      <span class="scoreboard-section" *ngIf="currentRound?.practice">Round Number: {{roundNumber}}/{{NUMBER_OF_PRACTICE_ROUNDS}}</span>
-      <span class="scoreboard-section" *ngIf="currentRound?.practice">Total Goals: {{practiceGoals}}</span>
-      <span class="scoreboard-section" *ngIf="!currentRound?.practice">Round Number: {{roundNumber - NUMBER_OF_PRACTICE_ROUNDS}}/{{NUMBER_OF_ROUNDS}}</span>
-      <span class="scoreboard-section" *ngIf="!currentRound?.practice">Total Goals: {{totalGoals - practiceGoals}}</span>
+      <span class="scoreboard-section">Round Number: {{roundNumber}}/{{TOTAL_NUMBER_OF_ROUNDS}}</span>
+      <span class="scoreboard-section">Total Goals: {{totalGoals}}</span>
     </h2>
   </div>
   <div dir="rtl">
     <div *ngFor="let position of positions" class="position-wrapper" [style.width.%]="getWidth(position.fieldPositionId)">
-      <button [class.acitve-position]="position.fieldPositionId == currentPosition" [disabled]="isPositionDisabled(position.fieldPositionId)" class="choice-button" (click)="moveToPosition(position)">
-        {{position.fieldPositionId}}
+      <button [class.active-position]="position.fieldPositionId == currentFieldPositionId" [disabled]="isPositionDisabled(position.fieldPositionId)" class="choice-button" (click)="moveToPosition(position)">
+        <i *ngIf="position.fieldPositionId == currentFieldPositionId" class="fa fa-4x fa-soccer-ball-o"></i>
+        <span *ngIf="position.fieldPositionId != currentFieldPositionId">{{position.fieldPositionId}}</span>
       </button>
     </div>
   </div>
