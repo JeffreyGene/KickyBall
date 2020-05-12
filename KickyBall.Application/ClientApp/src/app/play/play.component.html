@@ -9,7 +9,7 @@
     </h2>
   </div>
   <div dir="rtl">
-    <div *ngFor="let position of positions" class="position-wrapper" [style.width.%]="getWidth(position.fieldPositionId)">
+    <div *ngFor="let position of positions" class="position-wrapper" [style.width.%]="getWidth(position.choiceNumber)">
       <button [class.active-position]="position.fieldPositionId == currentFieldPositionId" [disabled]="isPositionDisabled(position.fieldPositionId)" class="choice-button" (click)="moveToPosition(position)">
         <i *ngIf="position.fieldPositionId == currentFieldPositionId" class="fa fa-4x fa-soccer-ball-o"></i>
         <span *ngIf="position.fieldPositionId != currentFieldPositionId">{{position.fieldPositionId}}</span>

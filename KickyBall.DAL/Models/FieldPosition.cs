@@ -14,5 +14,6 @@ namespace KickyBall.DAL.Models
         public int? LeftFieldPositionId { get; set; }
 
         public int? RightFieldPositionId { get; set; }
+        public int ChoiceNumber { get; set; }
     }
 }

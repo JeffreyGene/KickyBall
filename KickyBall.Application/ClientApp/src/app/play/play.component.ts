@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Controllers } from 'src/controllers/controllers';
-import { FieldPositionModel } from 'src/models/field-position.model';
+import { FieldPosition } from 'src/models/field-position.model';
 import { timer, Observable, Subscription } from 'rxjs';
 import { Key } from 'protractor';
 import { Game } from 'src/models/game.model';
@@ -23,7 +23,7 @@ export class PlayComponent implements OnInit, OnDestroy {
   TOTAL_NUMBER_OF_ROUNDS: number;
   UNIQUE_ROUTES_TO_SCORE: number = 12;
   controllers: Controllers;
-  positions: FieldPositionModel[];
+  positions: FieldPosition[];
   currentFieldPositionId: number = 1;
   activePositions: number[] = [2, 3];
   showResetButton: boolean = false;
@@ -236,8 +236,8 @@ export class PlayComponent implements OnInit, OnDestroy {
     return Math.floor(this.timeLeftForRound / 60).toString() + ':' + this.padTimer(this.timeLeftForRound % 60);
   }
 
-  getWidth(fieldPositionId: number){
-    return 100 / Math.pow(2, Math.floor(Math.log(fieldPositionId)/Math.log(2)));
+  getWidth(choiceNumber: number){
+    return 100 / (choiceNumber + 1);
   }
 
   isPositionDisabled(fieldPositionId){
@@ -309,7 +309,7 @@ export class PlayComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  moveToPosition(position: FieldPositionModel){
+  moveToPosition(position: FieldPosition){
     if(!this.roundStarted || position == null){
       return;
     }

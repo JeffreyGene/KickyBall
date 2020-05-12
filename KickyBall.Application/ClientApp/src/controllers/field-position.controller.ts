@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { FieldPositionModel } from "src/models/field-position.model";
+import { FieldPosition } from "src/models/field-position.model";
 
 export class FieldPositionController {
     private http: HttpClient;
@@ -11,7 +11,7 @@ export class FieldPositionController {
         this.baseUrl = 'api/FieldPosition/';
     }
 
-    GetFieldPositions(): Observable<FieldPositionModel[]>{
-        return this.http.get<FieldPositionModel[]>(this.baseUrl + 'GetFieldPositions');
+    GetFieldPositions(): Observable<FieldPosition[]>{
+        return this.http.get<FieldPosition[]>(this.baseUrl + 'GetFieldPositions');
     }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { FieldPositionModel } from "src/models/field-position.model";
+import { FieldPosition } from "src/models/field-position.model";
 import { Game } from "src/models/game.model";
 import { Round } from "src/models/round.model";
 import { GoalAttempt } from "src/models/goal-attempt.model";
