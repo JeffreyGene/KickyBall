@@ -1,6 +1,7 @@
 ﻿using KickyBall.BLL.DTOs;
 using KickyBall.BLL.Requests;
 using KickyBall.DAL.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,6 @@ namespace KickyBall.BLL.Interfaces
         User GetById(int userId);
         UserGameStats GetUserGameStats(int userId);
         bool ResetPassword(ResetPasswordRequest request);
+        IActionResult ExportUserGameStats(int userId);
     }
 }

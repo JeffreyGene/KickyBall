@@ -60,5 +60,11 @@ namespace KickyBall.Application.Controllers
         {
             return _service.GetUserGameStats(userId);
         }
+
+        [HttpGet]
+        public IActionResult ExportUserGameStats(int userId)
+        {
+            return _service.ExportUserGameStats(userId);
+        }
     }
 }
