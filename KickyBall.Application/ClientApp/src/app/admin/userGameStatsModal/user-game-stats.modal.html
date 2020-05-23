@@ -1,15 +1,21 @@
 
 <div class="stats-background"></div>
-<div class="stats-content">
-    <h2>User Game Stats</h2>
-    <button (click)="close()">Close</button>
-    <h3>{{stats.username}}</h3>
-    <h3>{{stats.firstName}}</h3>
-    <h3>{{stats.lastName}}</h3>
-    <div *ngFor="let round of stats.roundStats">
-        <h3>{{round.roundId}}</h3>
+<div class="stats-content" *ngIf="stats">
+    <h1>User Game Stats</h1>
+    <button class="btn btn-secondary" (click)="export()">Export</button>
+    <button class="btn btn-danger" (click)="resetPassword()">Reset Password</button>
+    <button class="btn btn-close" (click)="close()">Close</button>
+    <h2>{{stats.username}} - {{stats.firstName}} {{stats.lastName}}</h2>
+    <div *ngIf="newPassword">New Password: {{newPassword}}</div>
+    <div>Game Finished: {{stats.gameFinished}}</div>
+    <div>Practice Goals: {{stats.practiceGoals}}</div>
+    <div>Goals: {{stats.goals}}</div>
+    <div *ngFor="let round of stats.roundStats; let i = index">
+        <h3>Round: {{i + 1}}</h3>
+        <div>Practice: {{round.practice}}</div>
+        <h4>Goal Attempts:</h4>
         <div *ngFor="let route of round.goalAttemptRouteNames">
-            <h4>{{route}}</h4>
+            <div>{{route}}</div>
         </div>
     </div>
 </div>

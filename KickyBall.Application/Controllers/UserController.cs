@@ -43,6 +43,12 @@ namespace KickyBall.Application.Controllers
             return _service.Register(request);
         }
 
+        [HttpPost]
+        public bool ResetPassword([FromBody]ResetPasswordRequest request)
+        {
+            return _service.ResetPassword(request);
+        }
+
         [HttpGet]
         public List<AdminPageUser> GetUsers()
         {

@@ -4,11 +4,13 @@
     position: fixed;
     right: 0px;
     top: 57px;
-    height: 100%;
+    height: calc(100% - 57px);
     width: auto;
     background-color: white;
     padding: 15px;
     z-index: 1000;
+    overflow-y: auto;
+    min-width: 30%;
 }
 
 .stats-background {
@@ -19,4 +21,8 @@
     height: 100%;
     background-color: rgba(0, 0, 0, .75);
     z-index: 999;
+}
+
+h1, h2, h3, h4 {
+    white-space: nowrap;
 }

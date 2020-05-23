@@ -24,11 +24,13 @@ namespace KickyBall.BLL.Services
         private KickyBallContext _context;
         private PasswordHasher _passwordHasher;
         private IConfiguration Configuration;
-        public UserService(KickyBallContext context, PasswordHasher passwordHasher, IConfiguration configuration)
+        private IGameService _gameService;
+        public UserService(KickyBallContext context, PasswordHasher passwordHasher, IConfiguration configuration, IGameService gameService)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             Configuration = configuration;
+            _gameService = gameService;
         }
 
         public AuthenticatedUser Authenticate(AuthenticationRequest request)
@@ -96,6 +98,13 @@ namespace KickyBall.BLL.Services
             _context.SaveChanges();
             return true;
         }
+        public bool ResetPassword(ResetPasswordRequest request)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.UserId == request.UserId);
+            user.Password = _passwordHasher.HashPassword(request.NewPassword);
+            _context.SaveChanges();
+            return true;
+        }
 
         public List<AdminPageUser> GetUsers()
         {
@@ -128,11 +137,13 @@ namespace KickyBall.BLL.Services
                     Username = u.Username,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    IsAdmin = u.IsAdmin,
+                    Goals = u.Games.FirstOrDefault().Rounds.Where(r => !r.Practice).SelectMany(r => r.GoalAttempts.Where(ga => ga.ScoredGoal)).Count(),
+                    PracticeGoals = u.Games.FirstOrDefault().Rounds.Where(r => r.Practice).SelectMany(r => r.GoalAttempts.Where(ga => ga.ScoredGoal)).Count(),
                     GameFinished = u.Games.Any(g => g.Finished),
                     RoundStats = u.Games.FirstOrDefault().Rounds.Select(r => new RoundStats
                     {
                         RoundId = r.RoundId,
+                        Practice = r.Practice,
                         GoalAttemptRouteNames = r.GoalAttempts.Select(ga => ga.Route.Name)
                     })
                 }).FirstOrDefault(u => u.UserId == userId);

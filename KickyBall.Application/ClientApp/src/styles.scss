@@ -31,6 +31,7 @@ code {
 
 .navbar {
   margin: 0px !important;
+  background-color: $primary-color !important;
 }
 
 .btn-primary {
@@ -51,6 +52,20 @@ code {
   color: white;
   background-color: $background-color;
   border-color: $background-color;
+  margin: 10px;
+}
+
+.btn-danger {
+  color: white;
+  background-color: darkred;
+  border-color: none;
+  margin: 10px;
+}
+
+.btn-close {
+  color: black;
+  background-color: white;
+  border-color: black;
   margin: 10px;
 }
 

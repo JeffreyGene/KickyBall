@@ -12,6 +12,7 @@ import { UserGameStats } from 'src/models/user-stats.model';
 })
 export class UserGameStatsModal implements OnInit {
     stats: UserGameStats;
+    newPassword: string = null;
 
     constructor(public controllers: Controllers, public dialogRef: MatDialogRef<UserGameStatsModal>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -24,6 +25,14 @@ export class UserGameStatsModal implements OnInit {
     }
 
     close() {
+        this.newPassword = null;
         this.dialogRef.close("done");
+    }
+
+    resetPassword() {
+        let temp = Math.random().toString(36).substring(8) + Math.random().toString(36).substring(8);
+        this.controllers.userController.ResetPassword(this.data.userId, temp).subscribe(r => {
+            this.newPassword = temp;
+        });
     }
 }

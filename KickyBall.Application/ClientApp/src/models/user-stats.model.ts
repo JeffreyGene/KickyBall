@@ -5,6 +5,8 @@ export class UserGameStats {
     public username: string;
     public firstName: string;
     public lastName: string;
-    public isAdmin: boolean;
+    public gameFinished: boolean;
+    public goals: number;
+    public practiceGoals: number;
     public roundStats: RoundStats[];
 }

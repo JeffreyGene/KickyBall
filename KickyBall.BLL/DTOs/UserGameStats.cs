@@ -10,7 +10,6 @@ namespace KickyBall.BLL.DTOs
         public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public bool IsAdmin { get; set; }
         public bool GameFinished { get; set; }
         public int PracticeGoals { get; set; }
         public int Goals { get; set; }

@@ -25,6 +25,10 @@ export class UserController {
         return this.http.post<any>(`api/User/Register`, { username, password, registrationCode, firstName, lastName });
     }
 
+    ResetPassword(userId, newPassword) {
+        return this.http.post<any>(`api/User/ResetPassword`, { userId, newPassword });
+    }
+
     GetUserGameStats(userId: number): Observable<UserGameStats>{
         return this.http.get<UserGameStats>(`${this.baseUrl}GetUserGameStats?userId=${userId}`);
     }
