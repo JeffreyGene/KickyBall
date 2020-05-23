@@ -32,4 +32,9 @@ export class UserController {
     GetUserGameStats(userId: number): Observable<UserGameStats>{
         return this.http.get<UserGameStats>(`${this.baseUrl}GetUserGameStats?userId=${userId}`);
     }
+
+    ExportUserGameStats(userId: number): Observable<any>{
+        let options: any = { responseType: 'blob' };
+        return this.http.get<any>(`${this.baseUrl}ExportUserGameStats?userId=${userId}`, options);
+    }
 }

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -147,52 +146,6 @@ namespace KickyBall.BLL.Services
                 }).FirstOrDefault(u => u.UserId == userId);
 
             return result;
-        }
-
-        public IActionResult ExportUserGameStats(int userId)
-        {
-            var comlumHeadrs = new string[]
-            {
-                "Employee Id",
-                "Name",
-                "Position",
-                "Salary",
-                "Joined Date"
-            };
-
-            byte[] result;
-
-            var stats = GetUserGameStats(userId);
-
-            using (var package = new ExcelPackage())
-            {
-                // add a new worksheet to the empty workbook
-
-                var worksheet = package.Workbook.Worksheets.Add("Current Employee"); //Worksheet name
-                using (var cells = worksheet.Cells[1, 1, 1, 5]) //(1,1) (1,5)
-                {
-                    cells.Style.Font.Bold = true;
-                }
-
-                //First add the headers
-                for (var i = 0; i < comlumHeadrs.Count(); i++)
-                {
-                    worksheet.Cells[1, i + 1].Value = comlumHeadrs[i];
-                }
-
-                //Add values
-                var j = 2;
-                foreach (var round in stats.RoundStats)
-                {
-                    worksheet.Cells["A" + j].Value = round.RoundId;
-                    worksheet.Cells["B" + j].Value = round.Practice;
-
-                    j++;
-                }
-                result = package.GetAsByteArray();
-            }
-
-            return File(result, "application/ms-excel", $"{stats.Username}_game_stats.xlsx");
         }
     }
 }

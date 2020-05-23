@@ -16,6 +16,5 @@ namespace KickyBall.BLL.Interfaces
         User GetById(int userId);
         UserGameStats GetUserGameStats(int userId);
         bool ResetPassword(ResetPasswordRequest request);
-        IActionResult ExportUserGameStats(int userId);
     }
 }

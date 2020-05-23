@@ -4,6 +4,7 @@ import { AdminPageUser } from 'src/models/admin-page-user.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UserGameStats } from 'src/models/user-stats.model';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'user-game-stats-modal',
@@ -33,6 +34,22 @@ export class UserGameStatsModal implements OnInit {
         let temp = Math.random().toString(36).substring(8) + Math.random().toString(36).substring(8);
         this.controllers.userController.ResetPassword(this.data.userId, temp).subscribe(r => {
             this.newPassword = temp;
+        });
+    }
+    downLoadFile(data: any, type: string) {
+        let blob = new Blob([data], { type: type});
+        let url = window.URL.createObjectURL(blob);
+        let pwa = window.open(url);
+        if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+            alert( 'Please disable your Pop-up blocker and try again.');
+        }
+    }
+    export() {
+        console.log('export');
+        this.controllers.userController.ExportUserGameStats(this.data.userId).subscribe(res => {
+            const blob = new Blob([res], { type : 'application/vnd.ms.excel' });
+            const file = new File([blob], 'file.xlsx', { type: 'application/vnd.ms.excel' });
+            saveAs(file);
         });
     }
 }
