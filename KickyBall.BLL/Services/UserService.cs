@@ -130,13 +130,11 @@ namespace KickyBall.BLL.Services
                     LastName = u.LastName,
                     IsAdmin = u.IsAdmin,
                     GameFinished = u.Games.Any(g => g.Finished),
-                    RoundStats = u.Games.SelectMany(g => 
-                        g.Rounds.Select(r => new RoundStats { 
-                            RoundId = r.RoundId, 
-                            GoalAttemptRouteNames = new List<string>()
-                            //r.GoalAttempts.Select(ga => ga.Route.Name)
-                        })
-                    ).ToList()
+                    RoundStats = u.Games.FirstOrDefault().Rounds.Select(r => new RoundStats
+                    {
+                        RoundId = r.RoundId,
+                        GoalAttemptRouteNames = r.GoalAttempts.Select(ga => ga.Route.Name)
+                    })
                 }).FirstOrDefault(u => u.UserId == userId);
 
             return result;

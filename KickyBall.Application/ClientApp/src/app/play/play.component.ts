@@ -284,11 +284,6 @@ export class PlayComponent implements OnInit, OnDestroy {
       }
       power--;
     });
-    // for(let i = 0; i++; i < this.currentGoalAttempt.moves.length){
-    //   if(this.currentGoalAttempt.moves[i].directionId == 1){
-    //     routeId += Math.pow(2, this.currentGoalAttempt.moves.length - i - 1);
-    //   }
-    // }
     return routeId + 1;
   }
 
