@@ -44,9 +44,15 @@ namespace KickyBall.Application.Controllers
         }
 
         [HttpGet]
-        public List<User> GetUsers()
+        public List<AdminPageUser> GetUsers()
         {
             return _service.GetUsers();
+        }
+
+        [HttpGet]
+        public UserGameStats GetUserGameStats(int userId)
+        {
+            return _service.GetUserGameStats(userId);
         }
     }
 }

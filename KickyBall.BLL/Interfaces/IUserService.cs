@@ -9,9 +9,10 @@ namespace KickyBall.BLL.Interfaces
 {
     public interface IUserService
     {
-        List<User> GetUsers();
+        List<AdminPageUser> GetUsers();
         AuthenticatedUser Authenticate(AuthenticationRequest request);
         bool Register(RegistrationRequest request);
         User GetById(int userId);
+        UserGameStats GetUserGameStats(int userId);
     }
 }

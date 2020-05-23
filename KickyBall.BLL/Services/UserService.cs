@@ -96,14 +96,35 @@ namespace KickyBall.BLL.Services
             return true;
         }
 
-        public List<User> GetUsers()
+        public List<AdminPageUser> GetUsers()
         {
-            return _context.Users.ToList();
+            return _context.Users.Select(u => new AdminPageUser
+            {
+                UserId = u.UserId,
+                Username = u.Username,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                IsAdmin = u.IsAdmin,
+                GameFinished = u.Games.Any(g => g.Finished)
+            }).ToList();
         }
 
         public User GetById(int userId)
         {
             return _context.Users.FirstOrDefault(u => u.UserId == userId);
+        }
+
+        public UserGameStats GetUserGameStats(int userId)
+        {
+            return _context.Users.Select(u => new UserGameStats
+            {
+                UserId = u.UserId,
+                Username = u.Username,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                IsAdmin = u.IsAdmin,
+                GameFinished = u.Games.Any(g => g.Finished)
+            }).FirstOrDefault(u => u.UserId == userId);
         }
     }
 }

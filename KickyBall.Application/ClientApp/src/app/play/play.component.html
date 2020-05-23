@@ -9,10 +9,15 @@
     </h2>
   </div>
   <div dir="rtl">
-    <div *ngFor="let position of positions" class="position-wrapper" [style.width.%]="getWidth(position.choiceNumber)">
-      <button [class.active-position]="position.fieldPositionId == currentFieldPositionId" [disabled]="isPositionDisabled(position.fieldPositionId)" class="choice-button" (click)="moveToPosition(position)">
-        <i *ngIf="position.fieldPositionId == currentFieldPositionId" class="fa fa-4x fa-soccer-ball-o"></i>
-        <span *ngIf="position.fieldPositionId != currentFieldPositionId">{{position.fieldPositionId}}</span>
+    <div *ngFor="let choice of choices" class="choice-wrapper">
+      <button 
+        *ngFor="let position of getPositionsForChoice(choice)" 
+        [class.active-position]="position.fieldPositionId == currentFieldPositionId" 
+        [disabled]="isPositionDisabled(position.fieldPositionId)" 
+        class="choice-button" 
+        (click)="moveToPosition(position)"
+        >
+        <i [class.fa-soccer-ball-o]="position.fieldPositionId == currentFieldPositionId" class="fa fa-4x"></i>
       </button>
     </div>
   </div>

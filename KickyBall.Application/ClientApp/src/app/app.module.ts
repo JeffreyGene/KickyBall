@@ -16,6 +16,9 @@ import { RegisterComponent } from './register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { UserGameStatsModal } from './admin/userGameStatsModal/user-game-stats.modal';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     NavMenuComponent,
     PlayComponent,
     AdminComponent,
+    UserGameStatsModal,
     LoginComponent,
     RegisterComponent
   ],
@@ -37,7 +41,9 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-    ])
+    ]),
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [
     Controllers,

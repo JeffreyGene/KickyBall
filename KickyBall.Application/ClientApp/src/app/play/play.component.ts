@@ -47,6 +47,7 @@ export class PlayComponent implements OnInit, OnDestroy {
   paused: boolean = false;
   loadingCount: number = 0;
   timeSinceLastAction: number = 0;
+  choices: number[] = [];
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -89,9 +90,13 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit() {
+    function onlyUnique(value, index, self) { 
+      return self.indexOf(value) === index;
+    }
     this.loadingCount += 2;
     this.controllers.fieldPositionController.GetFieldPositions().subscribe(positions => {
       this.positions = positions;
+      this.choices = positions.map(p => p.choiceNumber).filter(onlyUnique).sort((c1, c2) => (c1 > c2 ? -1 : 1));
       this.updateLoadingCount();
     });
     this.controllers.applicationSettingController.GetGameSettings().subscribe(s => {
@@ -236,8 +241,8 @@ export class PlayComponent implements OnInit, OnDestroy {
     return Math.floor(this.timeLeftForRound / 60).toString() + ':' + this.padTimer(this.timeLeftForRound % 60);
   }
 
-  getWidth(choiceNumber: number){
-    return 100 / (choiceNumber + 1);
+  getPositionsForChoice(choice: number){
+    return this.positions.filter(p => p.choiceNumber === choice);
   }
 
   isPositionDisabled(fieldPositionId){

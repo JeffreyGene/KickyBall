@@ -20,11 +20,13 @@
   padding-top: 45px;
 }
 
-.position-wrapper{
+.choice-wrapper{
   height: 100%;
-  width: 100%;
   display: inline-block;
   padding: 15px 0px;
+  margin: 15px;
+  width: 100%;
+  text-align: center;
 }
 
 .choice-button {
@@ -33,6 +35,8 @@
   border-radius: 30px;
   width: 64px;
   height: 64px;
+  margin: 15px;
+  vertical-align: top;
   &:disabled {
     border: solid white 3px;
     background-color: $background-color;
