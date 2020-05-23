@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users" (click)="openUserModal(user.userId)">
+    <tr *ngFor="let user of users" (click)="openUserModal(user.userId)" class="user-row">
       <td>{{user.userId}}</td>
       <td>{{user.username}}</td>
       <td>{{user.firstName}}</td>

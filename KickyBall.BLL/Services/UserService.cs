@@ -5,6 +5,7 @@ using KickyBall.DAL;
 using KickyBall.DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -116,15 +117,29 @@ namespace KickyBall.BLL.Services
 
         public UserGameStats GetUserGameStats(int userId)
         {
-            return _context.Users.Select(u => new UserGameStats
-            {
-                UserId = u.UserId,
-                Username = u.Username,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                IsAdmin = u.IsAdmin,
-                GameFinished = u.Games.Any(g => g.Finished)
-            }).FirstOrDefault(u => u.UserId == userId);
+            UserGameStats result = _context.Users
+                .Include(u => u.Games)
+                .ThenInclude(g => g.Rounds)
+                .ThenInclude(r => r.GoalAttempts)
+                .ThenInclude(ga => ga.Route)
+                .Select(u => new UserGameStats
+                {
+                    UserId = u.UserId,
+                    Username = u.Username,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    IsAdmin = u.IsAdmin,
+                    GameFinished = u.Games.Any(g => g.Finished),
+                    RoundStats = u.Games.SelectMany(g => 
+                        g.Rounds.Select(r => new RoundStats { 
+                            RoundId = r.RoundId, 
+                            GoalAttemptRouteNames = new List<string>()
+                            //r.GoalAttempts.Select(ga => ga.Route.Name)
+                        })
+                    ).ToList()
+                }).FirstOrDefault(u => u.UserId == userId);
+
+            return result;
         }
     }
 }

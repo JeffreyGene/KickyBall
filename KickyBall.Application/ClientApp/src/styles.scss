@@ -17,6 +17,10 @@ code {
   color: #bf1ae0;
 }
 
+.cdk-overlay-container {
+  background-color: $background-color !important;
+}
+
 .container {
   width: 100%;
   height: 100%;

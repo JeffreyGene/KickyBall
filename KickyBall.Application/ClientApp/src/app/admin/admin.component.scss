@@ -31,3 +31,10 @@ thead {
 .setting-input {
     margin: 15px 0px 0px 0px;
 }
+
+.user-row{
+    cursor: pointer;
+    &:hover {
+        background-color: lightgray;
+    }
+}

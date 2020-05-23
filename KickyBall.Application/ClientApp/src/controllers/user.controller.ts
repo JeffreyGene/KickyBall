@@ -6,6 +6,7 @@ import { Round } from "src/models/round.model";
 import { GoalAttempt } from "src/models/goal-attempt.model";
 import { User } from "src/models/user.model";
 import { AdminPageUser } from "src/models/admin-page-user.model";
+import { UserGameStats } from "src/models/user-stats.model";
 
 export class UserController {
     private http: HttpClient;
@@ -24,7 +25,7 @@ export class UserController {
         return this.http.post<any>(`api/User/Register`, { username, password, registrationCode, firstName, lastName });
     }
 
-    GetUserGameStats(userId: number): Observable<any>{
-        return this.http.get<any>(`${this.baseUrl}GetUserGameStats?userId=${userId}`);
+    GetUserGameStats(userId: number): Observable<UserGameStats>{
+        return this.http.get<UserGameStats>(`${this.baseUrl}GetUserGameStats?userId=${userId}`);
     }
 }

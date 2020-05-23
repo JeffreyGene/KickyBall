@@ -1,7 +1,15 @@
-<h2 mat-dialog-title>User Game Stats</h2>
-<mat-dialog-content>
-    User Stuff
-</mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-button (click)="close()">Close</button>
-</mat-dialog-actions>
+
+<div class="stats-background"></div>
+<div class="stats-content">
+    <h2>User Game Stats</h2>
+    <button (click)="close()">Close</button>
+    <h3>{{stats.username}}</h3>
+    <h3>{{stats.firstName}}</h3>
+    <h3>{{stats.lastName}}</h3>
+    <div *ngFor="let round of stats.roundStats">
+        <h3>{{round.roundId}}</h3>
+        <div *ngFor="let route of round.goalAttemptRouteNames">
+            <h4>{{route}}</h4>
+        </div>
+    </div>
+</div>
