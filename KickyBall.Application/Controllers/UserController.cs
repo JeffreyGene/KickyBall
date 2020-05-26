@@ -74,28 +74,35 @@ namespace KickyBall.Application.Controllers
 
             byte[] result;
 
-            var stats = _service.GetUserGameStats(userId);
+            UserGameStats stats = _service.GetUserGameStats(userId);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using (var package = new ExcelPackage())
             {
-                // add a new worksheet to the empty workbook
+                var worksheet = package.Workbook.Worksheets.Add("Game Stats");
 
-                var worksheet = package.Workbook.Worksheets.Add("Game Stats"); //Worksheet name
-                using (var cells = worksheet.Cells[1, 1, 1, 5]) //(1,1) (1,5)
+                worksheet.Cells[1, 1].Value = "Normal Goals";
+                worksheet.Cells[1, 1].Style.Font.Bold = true;
+                worksheet.Cells[1, 2].Value = stats.Goals;
+                worksheet.Cells[1, 3].Value = "Practice Goals";
+                worksheet.Cells[1, 2].Style.Font.Bold = true;
+                worksheet.Cells[1, 4].Value = stats.PracticeGoals;
+                worksheet.Cells[1, 5].Value = "Finished";
+                worksheet.Cells[1, 5].Style.Font.Bold = true;
+                worksheet.Cells[1, 6].Value = stats.GameFinished;
+
+                using (var cells = worksheet.Cells[2, 1, 2, 5])
                 {
                     cells.Style.Font.Bold = true;
                 }
 
-                //First add the headers
                 for (var i = 0; i < comlumHeadrs.Count(); i++)
                 {
-                    worksheet.Cells[1, i + 1].Value = comlumHeadrs[i];
+                    worksheet.Cells[2, i + 1].Value = comlumHeadrs[i];
                 }
 
-                //Add values
-                var row = 2;
+                var row = 3;
                 var roundNumber = 1;
                 foreach (var round in stats.RoundStats)
                 {
