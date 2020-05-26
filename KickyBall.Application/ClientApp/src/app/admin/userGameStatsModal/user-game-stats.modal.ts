@@ -45,10 +45,9 @@ export class UserGameStatsModal implements OnInit {
         }
     }
     export() {
-        console.log('export');
         this.controllers.userController.ExportUserGameStats(this.data.userId).subscribe(res => {
             const blob = new Blob([res], { type : 'application/vnd.ms.excel' });
-            const file = new File([blob], 'file.xlsx', { type: 'application/vnd.ms.excel' });
+            const file = new File([blob], `${this.controllers.authenticationController.currentUserValue.username}_game_stats.xlsx`, { type: 'application/vnd.ms.excel' });
             saveAs(file);
         });
     }

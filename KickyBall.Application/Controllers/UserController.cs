@@ -67,11 +67,9 @@ namespace KickyBall.Application.Controllers
         {
             var comlumHeadrs = new string[]
             {
-                "Employee Id",
-                "Name",
-                "Position",
-                "Salary",
-                "Joined Date"
+                "Round Number",
+                "Practice",
+                "Goal Attempt Route"
             };
 
             byte[] result;
@@ -97,13 +95,21 @@ namespace KickyBall.Application.Controllers
                 }
 
                 //Add values
-                var j = 2;
+                var row = 2;
+                var roundNumber = 1;
                 foreach (var round in stats.RoundStats)
                 {
-                    worksheet.Cells["A" + j].Value = round.RoundId;
-                    worksheet.Cells["B" + j].Value = round.Practice;
+                    worksheet.Cells[row, 1].Value = roundNumber;
+                    worksheet.Cells[row, 2].Value = round.Practice;
+                    row++;
+                    roundNumber++;
 
-                    j++;
+                    foreach (var goalAttempName in round.GoalAttemptRouteNames)
+                    {
+                        worksheet.Cells[row, 3].Value = goalAttempName;
+                        row++;
+                    }
+
                 }
                 result = package.GetAsByteArray();
             }
