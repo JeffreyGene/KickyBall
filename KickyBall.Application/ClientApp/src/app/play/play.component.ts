@@ -262,8 +262,9 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
   
   //Score as long as you don't choose the same path you have done previously this round
+  //test this
   scoreForNormal(){
-    if(!this.routeIdsThisGame.some(p => p == this.currentGoalAttempt.roundId)){
+    if(!this.routeIdsThisGame.some(p => p == this.currentGoalAttempt.routeId)){
       this.scoreText = 'GOAL!';
       this.goalsThisRound++;
       this.totalGoals++;
