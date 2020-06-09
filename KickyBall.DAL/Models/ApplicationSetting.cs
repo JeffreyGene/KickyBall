@@ -16,7 +16,7 @@ namespace KickyBall.DAL.Models
         [StringLength(50)]
         public string Name { get; set; }
         [Required]
-        [StringLength(50)]
+        [StringLength(500)]
         public string Value { get; set; }
         public bool Enabled { get; set; }
     }

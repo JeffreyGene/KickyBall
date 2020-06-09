@@ -28,7 +28,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     AdminComponent,
     UserGameStatsModal,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

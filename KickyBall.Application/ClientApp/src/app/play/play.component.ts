@@ -21,7 +21,7 @@ export class PlayComponent implements OnInit, OnDestroy {
   NUMBER_OF_PRACTICE_ROUNDS: number;
   NUMBER_OF_ROUNDS: number;
   TOTAL_NUMBER_OF_ROUNDS: number;
-  UNIQUE_ROUTES_TO_SCORE: number = 12;
+  UNIQUE_ROUTES_TO_SCORE: number = 8;
   controllers: Controllers;
   positions: FieldPosition[];
   currentFieldPositionId: number = 1;
@@ -48,6 +48,8 @@ export class PlayComponent implements OnInit, OnDestroy {
   loadingCount: number = 0;
   timeSinceLastAction: number = 0;
   choices: number[] = [];
+  showNeedMoreDataMessage: boolean = false;
+  showEndOfRound: boolean = false;
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -135,14 +137,20 @@ export class PlayComponent implements OnInit, OnDestroy {
   handleKeyboardEvent(event: KeyboardEvent) { 
     if(!this.paused){
       if(event.key == 'ArrowLeft'){
-        //Move Left
-        this.moveToPosition(this.positions.find(p => p.fieldPositionId == this.activePositions[0]));
+        this.moveLeft();
       }
       else if(event.key == 'ArrowRight'){
-        //Move Right
-        this.moveToPosition(this.positions.find(p => p.fieldPositionId == this.activePositions[1]));
+        this.moveRight();
       }
     }
+  }
+
+  moveLeft() {
+    this.moveToPosition(this.positions.find(p => p.fieldPositionId == this.activePositions[0]));
+  }
+
+  moveRight() {
+    this.moveToPosition(this.positions.find(p => p.fieldPositionId == this.activePositions[1]));
   }
 
   unPause() {
@@ -172,6 +180,21 @@ export class PlayComponent implements OnInit, OnDestroy {
     }
   }
 
+  needMorePracticeData(){
+    return this.currentRound.practice && this.currentRound.goalAttempts.length < Math.ceil(30 / this.NUMBER_OF_PRACTICE_ROUNDS);
+  }
+
+  needMoreNormalData(){
+    return !this.currentRound.practice && this.currentRound.goalAttempts.length < Math.ceil(100 / this.NUMBER_OF_ROUNDS);
+  }
+
+  checkDataPoints(){
+    if(this.timeLeftForRound == 0 && (this.needMorePracticeData() || this.needMoreNormalData())){
+      this.timeLeftForRound += 60;
+      this.showNeedMoreDataMessage = true;
+    }
+  }
+
   initTimerSubscription() {
     return timer(0, 1000).subscribe(seconds =>  {
       if(!this.paused){
@@ -181,6 +204,7 @@ export class PlayComponent implements OnInit, OnDestroy {
           this.paused = true;
           this.timeSinceLastAction = 0;
         }
+        this.checkDataPoints();
         if(this.timeLeftForRound == 0 && this.roundNumber == this.TOTAL_NUMBER_OF_ROUNDS){
           this.endGame();
         }
@@ -199,9 +223,11 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
 
   startRound(){
+    this.showEndOfRound = false;
     this.goalAttemptNumber = 1;
     this.roundNumber++;
     this.currentRound = new Round();
+    this.currentRound.goalAttempts = [];
     this.initRoundSettings();
     this.goalsThisRound = 0;
     this.roundStarted = true;
@@ -216,6 +242,8 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
 
   endRound(){
+    this.showNeedMoreDataMessage = false;
+    this.showEndOfRound = true;
     this.controllers.gameController.FinishRound(this.currentRound.roundId).subscribe(r => {
       //Round Fininshed
     });
@@ -301,6 +329,7 @@ export class PlayComponent implements OnInit, OnDestroy {
     let request = new RecordGoalAttemptRequest();
     request.goalAttempt = this.currentGoalAttempt;
     request.secondsRemaining = this.timeLeftForRound;
+    this.currentRound.goalAttempts.push(this.currentGoalAttempt);
     this.controllers.gameController.RecordGoalAttempt(request).subscribe(a => {
       //Goal Recorded
     });

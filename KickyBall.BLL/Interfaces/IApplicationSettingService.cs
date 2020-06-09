@@ -10,5 +10,6 @@ namespace KickyBall.BLL.Interfaces
         List<ApplicationSetting> GetApplicationSettings();
         ApplicationSetting UpdateSetting(ApplicationSetting setting);
         List<ApplicationSetting> GetGameSettings();
+        string GetWelcomeSetting();
     }
 }

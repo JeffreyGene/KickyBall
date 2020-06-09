@@ -48,5 +48,11 @@ namespace KickyBall.Application.Controllers
         {
             return _service.UpdateSetting(setting);
         }
+
+        [HttpGet]
+        public string GetWelcomeSetting()
+        {
+            return _service.GetWelcomeSetting();
+        }
     }
 }

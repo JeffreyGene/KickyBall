@@ -20,6 +20,10 @@ export class ApplicationSettingController {
         return this.http.get<ApplicationSetting[]>(this.baseUrl + 'GetApplicationSettings');
     }
 
+    GetWelcomeSetting(): Observable<string>{
+        return this.http.get<string>(this.baseUrl + 'GetWelcomeSetting');
+    }
+
     GetGameSettings(): Observable<ApplicationSetting[]>{
         return this.http.get<ApplicationSetting[]>(this.baseUrl + 'GetGameSettings');
     }

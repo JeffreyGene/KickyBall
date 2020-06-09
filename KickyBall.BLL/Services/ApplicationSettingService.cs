@@ -44,5 +44,10 @@ namespace KickyBall.BLL.Services
             _context.SaveChanges();
             return settingToUpdate;
         }
+
+        public string GetWelcomeSetting()
+        {
+            return _context.ApplicationSettings.FirstOrDefault(s => s.ApplicationSettingCode == "INSTR")?.Value;
+        }
     }
 }

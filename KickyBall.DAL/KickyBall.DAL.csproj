@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20200505040112_addRouteTable.Designer.cs" />
     <Compile Remove="Migrations\20200505040228_addRouteTable.cs" />
     <Compile Remove="Migrations\20200505040228_addRouteTable.Designer.cs" />
+    <Compile Remove="Migrations\20200609012944_seedInstructions.cs" />
+    <Compile Remove="Migrations\20200609012944_seedInstructions.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

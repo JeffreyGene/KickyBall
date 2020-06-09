@@ -25,7 +25,7 @@ namespace KickyBall.BLL.Services
 
         public Game GetCurrentGame(int userId)
         {
-            Game game = _context.Games.Include(g => g.Rounds).FirstOrDefault(g => g.UserId == userId);
+            Game game = _context.Games.Include(g => g.Rounds).ThenInclude(r => r.GoalAttempts).FirstOrDefault(g => g.UserId == userId);
             if(game != null)
             {
                 game.Rounds = game.Rounds.OrderBy(r => r.Ordinal).ToList();

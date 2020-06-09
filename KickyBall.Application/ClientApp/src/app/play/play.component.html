@@ -1,13 +1,13 @@
 <div class="field" *ngIf="!gameOver">
   <div class="score-text" *ngIf="scoreText != null">{{scoreText}}</div>
-  <div class="scoreboard" *ngIf="gameStarted">
-    <h2>
-      <span class="scoreboard-section">Time Remaining: {{getTimeRemaining()}}</span>
-      <span class="scoreboard-section">Goals: {{goalsThisRound}}</span>
-      <span class="scoreboard-section">Round Number: {{roundNumber}}/{{TOTAL_NUMBER_OF_ROUNDS}}</span>
-      <span class="scoreboard-section">Total Goals: {{totalGoals}}</span>
-    </h2>
-  </div>
+    <div class="scoreboard" *ngIf="gameStarted">
+      <div class="scoreboard-section">Time: {{getTimeRemaining()}}</div>
+      <div class="scoreboard-section">Goals: {{goalsThisRound}}</div>
+      <div class="scoreboard-section">Round: {{roundNumber}}/{{TOTAL_NUMBER_OF_ROUNDS}}</div>
+      <div class="scoreboard-section">Total Goals: {{totalGoals}}</div>
+      <p *ngIf="showNeedMoreDataMessage">You have not completed enough attempts for sufficient data. Please actively participate in order to move forward.</p>
+      <p *ngIf="showEndOfRound">End of Round {{roundNumber}}</p>
+    </div>
   <div dir="rtl">
     <div *ngFor="let choice of choices" class="choice-wrapper">
       <button 
@@ -17,11 +17,13 @@
         class="choice-button" 
         (click)="moveToPosition(position)"
         >
-        <i [class.fa-soccer-ball-o]="position.fieldPositionId == currentFieldPositionId" class="fa fa-4x"></i>
+        <i [class.fa-soccer-ball-o]="position.fieldPositionId == currentFieldPositionId" class="fa fa-2x"></i>
       </button>
     </div>
   </div>
   <div class="game-options">
+    <button *ngIf="roundStarted && !showResetButton" (click)="moveLeft()" class="game-options-button">Left</button>
+    <button *ngIf="roundStarted && !showResetButton" (click)="moveRight()" class="game-options-button">Right</button>
     <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
     <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button">Start Round</button>
     <button *ngIf="showResetButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
