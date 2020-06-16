@@ -23,11 +23,13 @@ namespace KickyBall.Application.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _service;
+        private readonly IRouteService _routeService;
 
-        public UserController(ILogger<UserController> logger, IUserService service)
+        public UserController(ILogger<UserController> logger, IUserService service, IRouteService routeService)
         {
             _logger = logger;
             _service = service;
+            _routeService = routeService;
         }
 
         [AllowAnonymous]
@@ -69,7 +71,7 @@ namespace KickyBall.Application.Controllers
             {
                 "Round Number",
                 "Practice",
-                "Goal Attempt Route"
+                "Goal Attempt Sequence"
             };
 
             byte[] result;
@@ -86,7 +88,7 @@ namespace KickyBall.Application.Controllers
                 worksheet.Cells[1, 1].Style.Font.Bold = true;
                 worksheet.Cells[1, 2].Value = stats.Goals;
                 worksheet.Cells[1, 3].Value = "Practice Goals";
-                worksheet.Cells[1, 2].Style.Font.Bold = true;
+                worksheet.Cells[1, 3].Style.Font.Bold = true;
                 worksheet.Cells[1, 4].Value = stats.PracticeGoals;
                 worksheet.Cells[1, 5].Value = "Finished";
                 worksheet.Cells[1, 5].Style.Font.Bold = true;
@@ -118,6 +120,24 @@ namespace KickyBall.Application.Controllers
                     }
 
                 }
+
+                List<Route> routes = _routeService.GetRoutes();
+
+                worksheet.Cells[2, 5].Value = "Sequence";
+                worksheet.Cells[2, 5].Style.Font.Bold = true;
+                worksheet.Cells[2, 6].Value = "Practice Count";
+                worksheet.Cells[2, 6].Style.Font.Bold = true;
+                worksheet.Cells[2, 7].Value = "Normal Count";
+                worksheet.Cells[2, 7].Style.Font.Bold = true;
+                row = 3;
+                foreach(Route route in routes)
+                {
+                    worksheet.Cells[row, 5].Value = route.Name; 
+                    worksheet.Cells[row, 6].Value = stats.RoundStats.Where(r => r.Practice).SelectMany(r => r.GoalAttemptRouteNames).Count(r => r == route.Name);
+                    worksheet.Cells[row, 7].Value = stats.RoundStats.Where(r => !r.Practice).SelectMany(r => r.GoalAttemptRouteNames).Count(r => r == route.Name);
+                    row++;
+                }
+
                 result = package.GetAsByteArray();
             }
 

@@ -94,6 +94,7 @@ namespace KickyBall.Application
 
             services.AddScoped<KickyBallContext, KickyBallContext>();
             services.AddScoped<IFieldPositionService, FieldPositionService>();
+            services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<PasswordHasher, PasswordHasher>();
