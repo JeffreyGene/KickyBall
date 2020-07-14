@@ -133,17 +133,17 @@ export class PlayComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('window:keyup', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    if(!this.paused){
-      if(event.key == 'ArrowLeft'){
-        this.moveLeft();
-      }
-      else if(event.key == 'ArrowRight'){
-        this.moveRight();
-      }
-    }
-  }
+  // @HostListener('window:keyup', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent) { 
+  //   if(!this.paused){
+  //     if(event.key == 'ArrowLeft'){
+  //       this.moveLeft();
+  //     }
+  //     else if(event.key == 'ArrowRight'){
+  //       this.moveRight();
+  //     }
+  //   }
+  // }
 
   moveLeft() {
     this.moveToPosition(this.positions.find(p => p.fieldPositionId == this.activePositions[0]));

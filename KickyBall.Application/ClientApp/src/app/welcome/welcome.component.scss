@@ -1,9 +1,18 @@
 @import "../../styles.scss";
 
-h1, p {
-  text-align: center;
+h1, p, h2 {
   margin: 0px;
   padding: 15px;
   background-color: $background-color;
   color: white;
+}
+
+.welcome {
+  max-width: 1000px;
+  display: inline-block;
+}
+
+.welcome-wrapper {
+  width: 100%;
+  text-align: center;
 }

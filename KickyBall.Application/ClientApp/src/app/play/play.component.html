@@ -22,8 +22,8 @@
     </div>
   </div>
   <div class="game-options">
-    <button *ngIf="roundStarted && !showResetButton" (click)="moveLeft()" class="game-options-button">Left</button>
-    <button *ngIf="roundStarted && !showResetButton" (click)="moveRight()" class="game-options-button">Right</button>
+    <!-- <button *ngIf="roundStarted && !showResetButton" (click)="moveLeft()" class="game-options-button">Left</button> -->
+    <!-- <button *ngIf="roundStarted && !showResetButton" (click)="moveRight()" class="game-options-button">Right</button> -->
     <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
     <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button">Start Round</button>
     <button *ngIf="showResetButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
@@ -31,8 +31,22 @@
 </div>
 <div *ngIf="paused || gameOver || loadingCount > 0" class="pause-wrapper">
   <div *ngIf="gameOver">
-    <h2>Game Finshed</h2>
-    <p>Congratulations! You have finished your session of Kicky Ball.</p>
+    <p>Thank you for your participation. You have now completed the study.</p>
+    <p>You should expect to receive your monetary compensation in the form of an e-giftcard to Amazon within the next week. This will be sent to the email you provided.</p>
+    <p>A portion of our survey included questions regarding your mental health. If you have experienced any distress due to these questions, please reach out to our principal investigator, Amy Odum at <a href="mailto:Amy.Odum@usu.edu">Amy.Odum@usu.edu</a> or (435)797-5578. In addition, we would like to provide mental health references that are available to you:</p>
+    <ul>
+      <li><a href="https://aggiewellness.usu.edu/logan/mentalwellness" target="_blank">USU Counseling and Psychological Services:</a> (435) 797-1012</li>
+      <li><a href="https://scce.usu.edu/services/psychology" target="_blank">SCCE Behavioral Health Clinic</a></li>
+      <li><a href="https://scce.usu.edu/services/act-guide/" target="_blank">ACT Guide:</a> a free online self-help program</li>
+      <li>Crisis Resources:
+        <ul>
+          <li>Contact <a href="https://healthcare.utah.edu/uni/safe-ut/" target="_blank">SafeUT</a> at (801) 587-3000 or download the app to start a private chat.</li>
+          <li><a href="https://suicidepreventionlifeline.org/" target="_blank">National Suicide Prevention Lifeline</a></li>
+          <li><a href="https://www.crisistextline.org/" target="_blank">Crisis Text Line</a></li>
+        </ul>
+      </li>
+    </ul>
+    <p>Please close your browser to protect confidentiality.</p>
   </div>
   <div *ngIf="!gameOver">
     <div *ngIf="loadingCount > 0">

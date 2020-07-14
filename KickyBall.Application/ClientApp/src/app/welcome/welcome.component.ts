@@ -7,14 +7,15 @@ import { Controllers } from 'src/controllers/controllers';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-  instructions: string;
+  // public instructions: any;
   constructor(private controllers: Controllers){
     
   }
 
   ngOnInit() {
-    this.controllers.applicationSettingController.GetWelcomeSetting().subscribe(instructions => {
-      this.instructions = instructions;
-    });
+    // console.log(window.navigator.userAgent);
+    // this.controllers.applicationSettingController.GetWelcomeSetting().subscribe(g => {
+    //   this.instructions = g;
+    // });
   }
 }
