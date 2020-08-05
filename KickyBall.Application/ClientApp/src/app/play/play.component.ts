@@ -80,7 +80,7 @@ export class PlayComponent implements OnInit, OnDestroy {
       this.practiceGoals = g;
       this.updateLoadingCount();
     });
-    this.controllers.gameController.GetRouteIdsForGame(this.currentGame.gameId).subscribe(p => {
+    this.controllers.gameController.GetRouteIdsForGame(this.currentGame.gameId, this.UNIQUE_ROUTES_TO_SCORE).subscribe(p => {
       this.routeIdsThisGame = p; 
       this.updateLoadingCount();
     });
@@ -132,18 +132,6 @@ export class PlayComponent implements OnInit, OnDestroy {
       this.timerSubscription.unsubscribe();
     }
   }
-
-  // @HostListener('window:keyup', ['$event'])
-  // handleKeyboardEvent(event: KeyboardEvent) { 
-  //   if(!this.paused){
-  //     if(event.key == 'ArrowLeft'){
-  //       this.moveLeft();
-  //     }
-  //     else if(event.key == 'ArrowRight'){
-  //       this.moveRight();
-  //     }
-  //   }
-  // }
 
   moveLeft() {
     this.moveToPosition(this.positions.find(p => p.fieldPositionId == this.activePositions[0]));
@@ -277,6 +265,13 @@ export class PlayComponent implements OnInit, OnDestroy {
     return !this.activePositions.some(p => p == fieldPositionId);
   }
 
+  updateRouteIdsThisGame(){
+    this.routeIdsThisGame.push(this.currentGoalAttempt.routeId);
+    if(this.routeIdsThisGame.length > this.UNIQUE_ROUTES_TO_SCORE){
+      this.routeIdsThisGame.splice(0, this.routeIdsThisGame.length - this.UNIQUE_ROUTES_TO_SCORE);
+    }
+  }
+
   //50/50 chance of scoring
   scoreForPractice(){
     let scored = Math.round(Math.random());
@@ -287,6 +282,7 @@ export class PlayComponent implements OnInit, OnDestroy {
       this.practiceGoals++;
       this.currentGoalAttempt.scoredGoal = true;
     }
+    this.updateRouteIdsThisGame();
   }
   
   //Score as long as you don't choose the same path you have done previously this round
@@ -298,10 +294,7 @@ export class PlayComponent implements OnInit, OnDestroy {
       this.totalGoals++;
       this.currentGoalAttempt.scoredGoal = true;
     }
-    this.routeIdsThisGame.push(this.currentGoalAttempt.routeId);
-    if(this.routeIdsThisGame.length > this.UNIQUE_ROUTES_TO_SCORE){
-      this.routeIdsThisGame.splice(0, this.routeIdsThisGame.length - this.UNIQUE_ROUTES_TO_SCORE);
-    }
+    this.updateRouteIdsThisGame();
   }
 
   getRouteId(){

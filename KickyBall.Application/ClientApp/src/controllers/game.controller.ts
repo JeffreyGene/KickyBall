@@ -30,8 +30,8 @@ export class GameController {
         return this.http.get<number>(this.baseUrl + 'GetRoundGoals?roundId=' + roundId);
     }
 
-    GetRouteIdsForGame(gameId: number): Observable<number[]>{
-        return this.http.get<number[]>(this.baseUrl + 'GetRouteIdsForGame?gameId=' + gameId);
+    GetRouteIdsForGame(gameId: number, take: number): Observable<number[]>{
+        return this.http.get<number[]>(this.baseUrl + 'GetRouteIdsForGame?gameId=' + gameId + '&take=' + take);
     }
 
     GetGoalAttemptNumberForRound(roundId: number, take: number): Observable<number>{

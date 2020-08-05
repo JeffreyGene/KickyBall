@@ -8,6 +8,7 @@
       <p *ngIf="showNeedMoreDataMessage">You have not completed enough attempts for sufficient data. Please actively participate in order to move forward.</p>
       <p *ngIf="showEndOfRound">End of Round {{roundNumber}}</p>
     </div>
+  <img src="./assets/goal.png" alt="Goalie Net" width="288" height="125">
   <div dir="rtl">
     <div *ngFor="let choice of choices" class="choice-wrapper">
       <button 
@@ -22,8 +23,6 @@
     </div>
   </div>
   <div class="game-options">
-    <!-- <button *ngIf="roundStarted && !showResetButton" (click)="moveLeft()" class="game-options-button">Left</button> -->
-    <!-- <button *ngIf="roundStarted && !showResetButton" (click)="moveRight()" class="game-options-button">Right</button> -->
     <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
     <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button">Start Round</button>
     <button *ngIf="showResetButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>

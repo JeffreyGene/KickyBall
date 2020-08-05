@@ -66,7 +66,7 @@ namespace KickyBall.BLL.Services
                 .Include(g => g.Rounds)
                 .ThenInclude(r => r.GoalAttempts)
                 .FirstOrDefault(g => g.GameId == gameId)
-                .Rounds.Where(r => r.Practice == false)
+                .Rounds
                 .OrderByDescending(r => r.Ordinal)
                 .SelectMany(r => r.GoalAttempts.OrderByDescending(a => a.Ordinal).Select(a => a.RouteId))
                 .Take(take)
