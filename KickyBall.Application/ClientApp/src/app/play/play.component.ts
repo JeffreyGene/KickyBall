@@ -193,7 +193,7 @@ export class PlayComponent implements OnInit, OnDestroy {
           this.timeSinceLastAction = 0;
         }
         this.checkDataPoints();
-        if(this.timeLeftForRound == 0 && this.roundNumber == this.TOTAL_NUMBER_OF_ROUNDS){
+        if(this.timeLeftForRound == 0 && this.roundNumber == this.TOTAL_NUMBER_OF_ROUNDS || this.roundNumber > this.TOTAL_NUMBER_OF_ROUNDS){
           this.endGame();
         }
         else if(this.timeLeftForRound == 0){
