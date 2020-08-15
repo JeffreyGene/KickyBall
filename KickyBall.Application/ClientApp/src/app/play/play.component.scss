@@ -13,11 +13,21 @@
   left: 0px;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .75);
+  background-color: rgba(0, 0, 0, .9);
   color: white;
   z-index: 1000;
   text-align: center;
-  padding-top: 45px;
+  padding: 15px 15px 45px 15px;
+  overflow-y: auto;
+  height: calc(100% - 40px);
+}
+
+.end-game-screen {
+  text-align: left;
+}
+
+.last-p {
+  padding-bottom: 15px
 }
 
 .choice-wrapper{

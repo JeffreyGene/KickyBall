@@ -29,7 +29,7 @@
   </div>
 </div>
 <div *ngIf="paused || gameOver || loadingCount > 0" class="pause-wrapper">
-  <div *ngIf="gameOver">
+  <div *ngIf="gameOver" class="end-game-screen">
     <p>Thank you for your participation. You have now completed the study.</p>
     <p>You should expect to receive your monetary compensation in the form of an e-giftcard to Amazon within the next week. This will be sent to the email you provided.</p>
     <p>A portion of our survey included questions regarding your mental health. If you have experienced any distress due to these questions, please reach out to our principal investigator, Amy Odum at <a href="mailto:Amy.Odum@usu.edu">Amy.Odum@usu.edu</a> or (435)797-5578. In addition, we would like to provide mental health references that are available to you:</p>
@@ -45,7 +45,7 @@
         </ul>
       </li>
     </ul>
-    <p>Please close your browser to protect confidentiality.</p>
+    <p class="last-p">Please close your browser to protect confidentiality.</p>
   </div>
   <div *ngIf="!gameOver">
     <div *ngIf="loadingCount > 0">
