@@ -1,6 +1,6 @@
 @import "../../styles.scss";
 
-h2, form {
+h2, form, .login-description {
     background-color: $background-color;
     color: white;
     margin: 0px;
@@ -19,8 +19,4 @@ a {
 .login {
     margin: 37.5px;
     color: white;
-}
-
-.login-description {
-    margin: 15px 0px;
 }
