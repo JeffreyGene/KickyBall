@@ -1,42 +1,44 @@
-<h2>Version 1.2</h2>
-<h2>Users</h2>
-<table>
-  <thead>
-    <tr>
-      <th>User Id</th>
-      <th>Username</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Finished Game</th>
-      <th>Admin</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users" (click)="openUserModal(user.userId)" class="user-row">
-      <td>{{user.userId}}</td>
-      <td>{{user.username}}</td>
-      <td>{{user.firstName}}</td>
-      <td>{{user.lastName}}</td>
-      <td>{{user.gameFinished}}</td>
-      <td>{{user.isAdmin}}</td>
-    </tr>
-  </tbody>
-</table>
-<hr>
-<h2>KickyBall Settings</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Setting</th>
-      <th>Value</th>
-      <th>Enabled</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let setting of settings">
-      <td>{{setting.name}}</td>
-      <td><input type="text" [(ngModel)]="setting.value" class="form-control col-sm-12 setting-input" /><button class="btn btn-primary" (click)="updateSetting(setting)" [disabled]="!setting.value">Update Setting</button></td>
-      <td>{{setting.enabled}}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="admin">
+  <h2>Version 1.3</h2>
+  <h2>Users</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>User Id</th>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Finished Game</th>
+        <th>Admin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users" (click)="openUserModal(user.userId)" class="user-row">
+        <td>{{user.userId}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.gameFinished}}</td>
+        <td>{{user.isAdmin}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <h2>KickyBall Settings</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Setting</th>
+        <th>Value</th>
+        <th>Enabled</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let setting of settings">
+        <td>{{setting.name}}</td>
+        <td><input type="text" [(ngModel)]="setting.value" class="form-control col-sm-12 setting-input" /><button class="btn btn-primary" (click)="updateSetting(setting)" [disabled]="!setting.value">Update Setting</button></td>
+        <td>{{setting.enabled}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
