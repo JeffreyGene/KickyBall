@@ -93,7 +93,9 @@
 }
 
 .start-round {
-  position: relative;
+  position: fixed;
+  top: calc(50% - 45px);
+  left: calc(50% - 75px);
 }
 
 .ball-animation {
