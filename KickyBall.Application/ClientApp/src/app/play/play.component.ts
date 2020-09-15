@@ -50,6 +50,8 @@ export class PlayComponent implements OnInit, OnDestroy {
   choices: number[] = [];
   showNeedMoreDataMessage: boolean = false;
   showEndOfRound: boolean = false;
+  shootGoal: boolean = false;
+  missGoal: boolean = false;
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -277,10 +279,18 @@ export class PlayComponent implements OnInit, OnDestroy {
     let scored = Math.round(Math.random());
     if(scored == 1){
       this.scoreText = 'GOAL!';
+      setTimeout(() => {
+        this.shootGoal = true;
+      }, 100);
       this.goalsThisRound++;
       this.totalGoals++;
       this.practiceGoals++;
       this.currentGoalAttempt.scoredGoal = true;
+    }
+    else {
+      setTimeout(() => {
+        this.missGoal = true;
+      }, 100);
     }
     this.updateRouteIdsThisGame();
   }
@@ -290,9 +300,17 @@ export class PlayComponent implements OnInit, OnDestroy {
   scoreForNormal(){
     if(!this.routeIdsThisGame.some(p => p == this.currentGoalAttempt.routeId)){
       this.scoreText = 'GOAL!';
+      setTimeout(() => {
+        this.shootGoal = true;
+      }, 100);
       this.goalsThisRound++;
       this.totalGoals++;
       this.currentGoalAttempt.scoredGoal = true;
+    }
+    else {
+      setTimeout(() => {
+        this.missGoal = true;
+      }, 100);
     }
     this.updateRouteIdsThisGame();
   }
@@ -360,6 +378,8 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
 
   resetFieldPosition(){
+    this.shootGoal = false;
+    this.missGoal = false;
     this.currentFieldPositionId = 1;
     this.activePositions = [2, 3];
     this.showResetButton = false;

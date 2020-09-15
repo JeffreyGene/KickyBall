@@ -22,6 +22,26 @@
   height: calc(100% - 40px);
 }
 
+.end-of-round-wrapper {
+  position: fixed;
+  top: 57px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: $primary-color;
+  opacity: .75;
+  color: black;
+  z-index: 800;
+  text-align: center;
+  padding: 15px 15px 45px 15px;
+  overflow-y: auto;
+  height: calc(100% - 40px);
+  font-size: 40px;
+  p {
+    margin-top: 15px
+  }
+}
+
 .end-game-screen {
   text-align: left;
 }
@@ -69,6 +89,32 @@
   border-radius: 30px;
   width: 120px;
   height: 60px;
+  z-index: 900;
+}
+
+.start-round {
+  position: relative;
+}
+
+.ball-animation {
+  position: absolute;
+  top: 75%;
+  left: 25%;
+  -webkit-transition: all 2s ease;  
+  -moz-transition: all 2s ease;  
+  -o-transition: all 2s ease;  
+  -ms-transition: all 2s ease;  
+  transition: all 2s ease;
+}
+
+.miss-goal {
+  top: calc(-50px) !important;
+  left: calc(50% + 150px) !important;
+}
+
+.shoot-goal {
+  top: 55px !important;
+  left: calc(50% + 30px) !important;
 }
 
 .game-options {
@@ -81,7 +127,7 @@
   position: absolute;
   text-align: center;
   width: 100%;
-  background-color: rgba(0, 0, 0, .75);
+  background-color: rgba(42, 79, 181, .95);
   padding: 15px 0px;
   margin-top: 175px;
   color: white;

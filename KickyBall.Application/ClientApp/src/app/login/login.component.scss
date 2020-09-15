@@ -20,3 +20,12 @@ a {
     margin: 37.5px;
     color: white;
 }
+
+.help-icon {
+    cursor: pointer;
+    color: $primary-color;
+}
+
+.help-text {
+    max-width: 300px;
+}

@@ -19,6 +19,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { UserGameStatsModal } from './admin/userGameStatsModal/user-game-stats.modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AuthenticatedUser } from 'src/models/authenticatedUser.model';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: WelcomeComponent },
+      { path: '', component: WelcomeComponent, canActivate: [AuthGuard] },
       { path: 'play', component: PlayComponent, canActivate: [AuthGuard] },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },

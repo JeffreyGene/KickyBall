@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
         const currentUser = this.controllers.authenticationController.currentUserValue;
         if (currentUser) {
             let result: boolean = true;
-            if(route.url[0].path === 'admin'){
+            if(route?.url[0]?.path === 'admin'){
                 result = currentUser.isAdmin;
             }
             if(!result){

@@ -1,13 +1,15 @@
 <div class="login">
     <h2>Login</h2>
     <p class="login-description">First time playing? Click "register"</p>
-    <p class="login-description">Returning player? Login with your SONA ID and password</p>
+    <p class="login-description">Already registered? Login with your SONA ID and password</p>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="username">SONA ID</label>
-            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <label for="username">SONA ID <i class="fa fa-question-circle-o help-icon" aria-hidden="true" (click)="toggleShowHelpText()" title='This is a 5-digit number that is used to assign research credits for participation. You can find it by clicking on "My Profile" on the SONA website. Inside the "My Profile" section, you can find your ID in the "Identity Code" field. Please note that your Identity Code is NOT your A number or anything that includes a name - it should be a 5-digit numeric code.'></i></label>
+            <p *ngIf="showHelpText" class="help-text">This is a 5-digit number that is used to assign research credits for participation. You can find it by clicking on "My Profile" on the SONA website. Inside the "My Profile" section, you can find your ID in the "Identity Code" field. Please note that your Identity Code is NOT your A number or anything that includes a name - it should be a 5-digit numeric code.</p>
+            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" (change)="updateUsername()" />
             <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">Username is required</div>
+                <div *ngIf="f.username.errors.required">SONA ID is required</div>
+                <div *ngIf="f.username.errors.maxlength || f.username.errors.minlength || f.username.errors.pattern">SONA ID must be a 5-digit number</div>
             </div>
         </div>
         <div class="form-group">

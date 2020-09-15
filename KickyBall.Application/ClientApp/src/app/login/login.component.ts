@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
     loading = false;
     submitted = false;
     returnUrl: string;
+    showHelpText: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -26,14 +27,23 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    toggleShowHelpText() {
+        this.showHelpText = !this.showHelpText;
+    }
+
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
+            username: ['', [Validators.required, Validators.maxLength(5), Validators.minLength(5), Validators.pattern('^[0-9]*$')]],
             password: ['', Validators.required]
         });
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    }
+
+    updateUsername() {
+        console.log(this.loginForm);
+        
     }
 
     // convenience getter for easy access to form fields

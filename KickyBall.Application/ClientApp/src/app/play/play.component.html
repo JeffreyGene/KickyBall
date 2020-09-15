@@ -6,26 +6,30 @@
       <div class="scoreboard-section">Round: {{roundNumber}}/{{TOTAL_NUMBER_OF_ROUNDS}}</div>
       <div class="scoreboard-section">Total Goals: {{totalGoals}}</div>
       <p *ngIf="showNeedMoreDataMessage">You have not completed enough attempts for sufficient data. Please actively participate in order to move forward.</p>
-      <p *ngIf="showEndOfRound">End of Round {{roundNumber}}</p>
+      
     </div>
   <img src="./assets/goal.png" alt="Goalie Net" width="288" height="125">
+  <i *ngIf="scoreText != null" class="fa fa-2x fa-soccer-ball-o ball-animation" [class.shoot-goal]="shootGoal" [class.miss-goal]="missGoal"></i>
   <div dir="rtl">
     <div *ngFor="let choice of choices" class="choice-wrapper">
       <button 
         *ngFor="let position of getPositionsForChoice(choice)" 
-        [class.active-position]="position.fieldPositionId == currentFieldPositionId" 
+        [class.active-position]="position.fieldPositionId == currentFieldPositionId && scoreText == null" 
         [disabled]="isPositionDisabled(position.fieldPositionId)" 
         class="choice-button" 
         (click)="moveToPosition(position)"
         >
-        <i [class.fa-soccer-ball-o]="position.fieldPositionId == currentFieldPositionId" class="fa fa-2x"></i>
+        <i [class.fa-soccer-ball-o]="position.fieldPositionId == currentFieldPositionId && scoreText == null" class="fa fa-2x"></i>
       </button>
     </div>
   </div>
   <div class="game-options">
     <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
-    <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button">Start Round</button>
+    <button *ngIf="!roundStarted && gameStarted || true" (click)="startRound()" class="game-options-button start-round">Start Round</button>
     <button *ngIf="showResetButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
+    <div *ngIf="showEndOfRound || true" class="end-of-round-wrapper">
+      <p>End of Round {{roundNumber}}</p>
+    </div>
   </div>
 </div>
 <div *ngIf="paused || gameOver || loadingCount > 0" class="pause-wrapper">

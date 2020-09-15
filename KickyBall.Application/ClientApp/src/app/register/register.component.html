@@ -18,7 +18,8 @@
         <label for="username">SONA ID</label>
         <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
         <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">Username is required</div>
+            <div *ngIf="f.username.errors.required">SONA ID is required</div>
+            <div *ngIf="f.username.errors.maxlength || f.username.errors.minlength || f.username.errors.pattern">SONA ID must be a 5-digit number</div>
         </div>
     </div>
     <div class="form-group">
@@ -30,7 +31,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="registrationCode">Registration Code</label>
+        <label for="registrationCode">Paste the Registration Code here</label>
         <input type="password" formControlName="registrationCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.registrationCode.errors }" />
         <div *ngIf="submitted && f.registrationCode.errors" class="invalid-feedback">
             <div *ngIf="f.registrationCode.errors.required">Registration Code is required</div>
