@@ -145,6 +145,7 @@ export class PlayComponent implements OnInit, OnDestroy {
 
   unPause() {
     this.paused = false;
+    this.showNeedMoreDataMessage = false;
     if(this.timeLeftForRound != 0){
       if(!this.timerSubscription){
         this.timerSubscription = this.initTimerSubscription();
@@ -182,6 +183,7 @@ export class PlayComponent implements OnInit, OnDestroy {
     if(this.timeLeftForRound == 0 && (this.needMorePracticeData() || this.needMoreNormalData())){
       this.timeLeftForRound += 60;
       this.showNeedMoreDataMessage = true;
+      this.paused = true;
     }
   }
 

@@ -5,8 +5,6 @@
       <div class="scoreboard-section">Goals: {{goalsThisRound}}</div>
       <div class="scoreboard-section">Round: {{roundNumber}}/{{TOTAL_NUMBER_OF_ROUNDS}}</div>
       <div class="scoreboard-section">Total Goals: {{totalGoals}}</div>
-      <p *ngIf="showNeedMoreDataMessage">You have not completed enough attempts for sufficient data. Please actively participate in order to move forward.</p>
-      
     </div>
   <img src="./assets/goal.png" alt="Goalie Net" width="288" height="125">
   <i *ngIf="scoreText != null" class="fa fa-2x fa-soccer-ball-o ball-animation" [class.shoot-goal]="shootGoal" [class.miss-goal]="missGoal"></i>
@@ -71,6 +69,7 @@
     </div>
     <div *ngIf="loadingCount == 0">
       <h2>Paused</h2>
+      <p *ngIf="showNeedMoreDataMessage">You have not completed enough attempts for sufficient data. Please actively participate in order to complete the round.</p>
       <p>Please press continue when you are ready to resume Kicky Ball.</p>
       <button (click)="unPause()" class="btn btn-primary">Continue</button>
     </div>
