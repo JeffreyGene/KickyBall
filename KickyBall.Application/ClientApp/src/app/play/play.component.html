@@ -30,12 +30,12 @@
     </div>
   </div>
 </div>
-<div *ngIf="paused || gameOver || loadingCount > 0 || true" class="pause-wrapper">
-  <div *ngIf="gameOver || true" class="end-game-screen">
+<div *ngIf="paused || gameOver || loadingCount > 0" class="pause-wrapper">
+  <div *ngIf="gameOver" class="end-game-screen">
     <p>You have now completed our study! Please click the link below to receive your compensation.</p>
     <a href="https://usu.co1.qualtrics.com/jfe/form/SV_2n3QPjnnPRSXSNn">https://usu.co1.qualtrics.com/jfe/form/SV_2n3QPjnnPRSXSNn</a>
   </div>
-  <div *ngIf="!gameOver && false">
+  <div *ngIf="!gameOver">
     <div *ngIf="loadingCount > 0">
       <p>Loading Game...</p>
       <div class="sk-fading-circle">
