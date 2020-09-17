@@ -1,5 +1,5 @@
 <div class="field" *ngIf="!gameOver">
-  <div class="score-text" *ngIf="scoreText != null">{{scoreText}}</div>
+  <div class="score-text" [class.goal-text]="scoreText == 'GOAL!'" [class.no-goal-text]="scoreText == 'No goal.'" *ngIf="scoreText != null">{{scoreText}}</div>
     <div class="scoreboard" *ngIf="gameStarted">
       <div class="scoreboard-section">Time: {{getTimeRemaining()}}</div>
       <div class="scoreboard-section">Goals: {{goalsThisRound}}</div>

@@ -11,3 +11,12 @@ h2, form {
 input {
     max-width: 300px;
 }
+
+.help-icon {
+    cursor: pointer;
+    color: $primary-color;
+}
+
+.help-text {
+    max-width: 300px;
+}

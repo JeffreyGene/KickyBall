@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
+    showHelpText: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -31,6 +32,10 @@ export class RegisterComponent implements OnInit {
             password: ['', [Validators.required, Validators.minLength(6)]],
             registrationCode: ['', [Validators.required]]
         });
+    }
+
+    toggleShowHelpText() {
+        this.showHelpText = !this.showHelpText;
     }
 
     // convenience getter for easy access to form fields

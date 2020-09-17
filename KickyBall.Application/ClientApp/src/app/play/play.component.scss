@@ -138,12 +138,19 @@
   position: absolute;
   text-align: center;
   width: 100%;
-  background-color: rgba(42, 79, 181, .95);
   padding: 15px 0px;
   margin-top: 175px;
   color: white;
   font-size: xxx-large;
   z-index: 100;
+}
+
+.goal-text {
+  background-color: rgba(42, 79, 181, .95);
+}
+
+.no-goal-text {
+  background-color: rgba(0, 0, 0, .9);
 }
 
 .scoreboard-section{
