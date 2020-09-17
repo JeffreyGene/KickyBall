@@ -43,7 +43,14 @@
 }
 
 .end-game-screen {
-  text-align: left;
+  color: black;
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px;
+  max-width: 300px;
+  text-align: center;
+  position: fixed;
+  left: calc(50% - 150px)
 }
 
 .last-p {
