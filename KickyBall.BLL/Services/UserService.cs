@@ -134,8 +134,10 @@ namespace KickyBall.BLL.Services
                     Username = u.Username,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Goals = u.Games.FirstOrDefault().Rounds.Where(r => !r.Practice).SelectMany(r => r.GoalAttempts.Where(ga => ga.ScoredGoal)).Count(),
+                    NormalAttempts = u.Games.FirstOrDefault().Rounds.Where(r => !r.Practice).SelectMany(r => r.GoalAttempts).Count(),
+                    NormalGoals = u.Games.FirstOrDefault().Rounds.Where(r => !r.Practice).SelectMany(r => r.GoalAttempts.Where(ga => ga.ScoredGoal)).Count(),
                     PracticeGoals = u.Games.FirstOrDefault().Rounds.Where(r => r.Practice).SelectMany(r => r.GoalAttempts.Where(ga => ga.ScoredGoal)).Count(),
+                    PracticeAttempts = u.Games.FirstOrDefault().Rounds.Where(r => r.Practice).SelectMany(r => r.GoalAttempts).Count(),
                     GameFinished = u.Games.Any(g => g.Finished),
                     RoundStats = u.Games.FirstOrDefault().Rounds.Select(r => new RoundStats
                     {

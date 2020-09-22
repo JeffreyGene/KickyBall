@@ -9,7 +9,9 @@
     <div *ngIf="newPassword">New Password: {{newPassword}}</div>
     <div>Game Finished: {{stats.gameFinished}}</div>
     <div>Practice Goals: {{stats.practiceGoals}}</div>
-    <div>Goals: {{stats.goals}}</div>
+    <div>Practice Attempts: {{stats.practiceAttempts}}</div>
+    <div>Goals: {{stats.normalGoals}}</div>
+    <div>Attempts: {{stats.normalAttempts}}</div>
     <div *ngFor="let round of stats.roundStats; let i = index">
         <h3>Round: {{i + 1}}</h3>
         <div>Practice: {{round.practice}}</div>

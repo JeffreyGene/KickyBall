@@ -6,7 +6,8 @@ export class UserGameStats {
     public firstName: string;
     public lastName: string;
     public gameFinished: boolean;
-    public goals: number;
-    public practiceGoals: number;
+    public normalGoals: number;
+    public normalAttempts: number;
+    public practiceAttempts: number;
     public roundStats: RoundStats[];
 }

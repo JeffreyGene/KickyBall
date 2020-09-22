@@ -12,7 +12,9 @@ namespace KickyBall.BLL.DTOs
         public string LastName { get; set; }
         public bool GameFinished { get; set; }
         public int PracticeGoals { get; set; }
-        public int Goals { get; set; }
+        public int PracticeAttempts { get; set; }
+        public int NormalGoals { get; set; }
+        public int NormalAttempts { get; set; }
         public IEnumerable<RoundStats> RoundStats { get; set; }
     }
 }

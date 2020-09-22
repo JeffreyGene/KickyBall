@@ -172,11 +172,11 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
 
   needMorePracticeData(){
-    return this.currentRound.practice && this.currentRound.goalAttempts.length < Math.ceil(100 / this.NUMBER_OF_PRACTICE_ROUNDS);
+    return this.currentRound.practice && this.currentRound.goalAttempts.length < 25;
   }
 
   needMoreNormalData(){
-    return !this.currentRound.practice && this.currentRound.goalAttempts.length < Math.ceil(300 / this.NUMBER_OF_ROUNDS);
+    return !this.currentRound.practice && this.currentRound.goalAttempts.length < 25;
   }
 
   checkDataPoints(){

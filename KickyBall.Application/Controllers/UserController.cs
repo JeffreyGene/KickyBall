@@ -67,12 +67,6 @@ namespace KickyBall.Application.Controllers
         [HttpGet]
         public IActionResult ExportUserGameStats(int userId)
         {
-            var comlumHeadrs = new string[]
-            {
-                "Round Number",
-                "Practice",
-                "Goal Attempt Sequence"
-            };
 
             byte[] result;
 
@@ -84,52 +78,67 @@ namespace KickyBall.Application.Controllers
             {
                 var worksheet = package.Workbook.Worksheets.Add("Game Stats");
 
-                worksheet.Cells[1, 1].Value = "Normal Goals";
+                worksheet.Cells[1, 1].Value = "Participant ID";
                 worksheet.Cells[1, 1].Style.Font.Bold = true;
-                worksheet.Cells[1, 2].Value = stats.Goals;
-                worksheet.Cells[1, 3].Value = "Practice Goals";
+                worksheet.Cells[2, 1].Value = stats.Username;
+
+                worksheet.Cells[1, 2].Value = "Round Number";
+                worksheet.Cells[1, 2].Style.Font.Bold = true;
+
+                worksheet.Cells[1, 3].Value = "Phase";
                 worksheet.Cells[1, 3].Style.Font.Bold = true;
-                worksheet.Cells[1, 4].Value = stats.PracticeGoals;
-                worksheet.Cells[1, 5].Value = "Finished";
+
+                worksheet.Cells[1, 4].Value = "Goal Attempt";
+                worksheet.Cells[1, 4].Style.Font.Bold = true;
+
+                worksheet.Cells[1, 5].Value = "Sequence";
                 worksheet.Cells[1, 5].Style.Font.Bold = true;
-                worksheet.Cells[1, 6].Value = stats.GameFinished;
 
-                using (var cells = worksheet.Cells[2, 1, 2, 5])
-                {
-                    cells.Style.Font.Bold = true;
-                }
+                worksheet.Cells[1, 6].Value = "Prob Count";
+                worksheet.Cells[1, 6].Style.Font.Bold = true;
 
-                for (var i = 0; i < comlumHeadrs.Count(); i++)
-                {
-                    worksheet.Cells[2, i + 1].Value = comlumHeadrs[i];
-                }
+                worksheet.Cells[1, 7].Value = "Var Count";
+                worksheet.Cells[1, 7].Style.Font.Bold = true;
 
-                var row = 3;
+                worksheet.Cells[1, 8].Value = "Prob Attempt";
+                worksheet.Cells[1, 8].Style.Font.Bold = true;
+                worksheet.Cells[2, 8].Value = stats.PracticeAttempts;
+
+
+                worksheet.Cells[1, 9].Value = "Prob Goal";
+                worksheet.Cells[1, 9].Style.Font.Bold = true;
+                worksheet.Cells[2, 9].Value = stats.PracticeGoals;
+
+                worksheet.Cells[1, 10].Value = "Var Attempt";
+                worksheet.Cells[1, 10].Style.Font.Bold = true;
+                worksheet.Cells[2, 10].Value = stats.NormalAttempts;
+
+                worksheet.Cells[1, 11].Value = "Var Count";
+                worksheet.Cells[1, 11].Style.Font.Bold = true;
+                worksheet.Cells[2, 11].Value = stats.NormalGoals;
+
+                worksheet.Cells[1, 12].Value = "Finished";
+                worksheet.Cells[1, 12].Style.Font.Bold = true;
+                worksheet.Cells[2, 12].Value = stats.GameFinished;
+
+                var row = 2;
                 var roundNumber = 1;
                 foreach (var round in stats.RoundStats)
                 {
-                    worksheet.Cells[row, 1].Value = roundNumber;
-                    worksheet.Cells[row, 2].Value = round.Practice;
-                    row++;
-                    roundNumber++;
 
                     foreach (var goalAttempName in round.GoalAttemptRouteNames)
                     {
-                        worksheet.Cells[row, 3].Value = goalAttempName;
+                        worksheet.Cells[row, 2].Value = roundNumber;
+                        worksheet.Cells[row, 3].Value = round.Practice ? "PROB" : "VAR";
+                        worksheet.Cells[row, 4].Value = goalAttempName;
                         row++;
                     }
+                    roundNumber++;
 
                 }
 
                 List<Route> routes = _routeService.GetRoutes();
-
-                worksheet.Cells[2, 5].Value = "Sequence";
-                worksheet.Cells[2, 5].Style.Font.Bold = true;
-                worksheet.Cells[2, 6].Value = "Practice Count";
-                worksheet.Cells[2, 6].Style.Font.Bold = true;
-                worksheet.Cells[2, 7].Value = "Normal Count";
-                worksheet.Cells[2, 7].Style.Font.Bold = true;
-                row = 3;
+                row = 2;
                 foreach(Route route in routes)
                 {
                     worksheet.Cells[row, 5].Value = route.Name; 
