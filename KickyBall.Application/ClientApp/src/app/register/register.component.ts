@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Controllers } from 'src/controllers/controllers';
+import { ConfirmedValidator } from './confirmValidator.component';
 
 @Component({ 
     templateUrl: 'register.component.html',
@@ -30,8 +31,13 @@ export class RegisterComponent implements OnInit {
             lastName: ['', Validators.required],
             username: ['', [Validators.required, Validators.maxLength(5), Validators.minLength(5), Validators.pattern('^[0-9]*$')]],
             password: ['', [Validators.required, Validators.minLength(6)]],
+            confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
             registrationCode: ['', [Validators.required]]
-        });
+        },{ 
+
+            validator: ConfirmedValidator('password', 'confirmPassword')
+      
+          });
     }
 
     toggleShowHelpText() {
