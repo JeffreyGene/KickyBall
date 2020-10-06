@@ -1,57 +1,59 @@
-<h2>Register</h2>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-            <div *ngIf="f.firstName.errors.required">First Name is required</div>
+<div class="register">
+    <h2>Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">First Name is required</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-            <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="username">SONA ID <i class="fa fa-question-circle-o help-icon" aria-hidden="true" (click)="toggleShowHelpText()" title='This is a 5-digit number that is used to assign research credits for participation. You can find it by clicking on "My Profile" on the SONA website. Inside the "My Profile" section, you can find your ID in the "Identity Code" field. Please note that your Identity Code is NOT your A number or anything that includes a name - it should be a 5-digit numeric code.'></i></label>
-        <p *ngIf="showHelpText" class="help-text">This is a 5-digit number that is used to assign research credits for participation. You can find it by clicking on "My Profile" on the SONA website. Inside the "My Profile" section, you can find your ID in the "Identity Code" field. Please note that your Identity Code is NOT your A number or anything that includes a name - it should be a 5-digit numeric code.</p>
-        <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">SONA ID is required</div>
-            <div *ngIf="f.username.errors.maxlength || f.username.errors.minlength || f.username.errors.pattern">SONA ID must be a 5-digit number</div>
+        <div class="form-group">
+            <label for="username">SONA ID <i class="fa fa-question-circle-o help-icon" aria-hidden="true" (click)="toggleShowHelpText()" title='This is a 5-digit number that is used to assign research credits for participation. You can find it by clicking on "My Profile" on the SONA website. Inside the "My Profile" section, you can find your ID in the "Identity Code" field. Please note that your Identity Code is NOT your A number or anything that includes a name - it should be a 5-digit numeric code.'></i></label>
+            <p *ngIf="showHelpText" class="help-text">This is a 5-digit number that is used to assign research credits for participation. You can find it by clicking on "My Profile" on the SONA website. Inside the "My Profile" section, you can find your ID in the "Identity Code" field. Please note that your Identity Code is NOT your A number or anything that includes a name - it should be a 5-digit numeric code.</p>
+            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">SONA ID is required</div>
+                <div *ngIf="f.username.errors.maxlength || f.username.errors.minlength || f.username.errors.pattern">SONA ID must be a 5-digit number</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="password">Create Your Password</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+        <div class="form-group">
+            <label for="password">Create Your Password</label>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
-        <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-            <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
-            <div *ngIf="f.confirmPassword.errors.minlength">Password must be at least 6 characters</div>
-            <div *ngIf="f.confirmPassword.errors.confirmedValidator">Confirm Password must match the password you are creating.</div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+            <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
+                <div *ngIf="f.confirmPassword.errors.minlength">Password must be at least 6 characters</div>
+                <div *ngIf="f.confirmPassword.errors.confirmedValidator">Confirm Password must match the password you are creating.</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="registrationCode">Paste the Registration Code here</label>
-        <input type="password" formControlName="registrationCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.registrationCode.errors }" />
-        <div *ngIf="submitted && f.registrationCode.errors" class="invalid-feedback">
-            <div *ngIf="f.registrationCode.errors.required">Registration Code is required</div>
+        <div class="form-group">
+            <label for="registrationCode">Paste the Registration Code here</label>
+            <input type="password" formControlName="registrationCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.registrationCode.errors }" />
+            <div *ngIf="submitted && f.registrationCode.errors" class="invalid-feedback">
+                <div *ngIf="f.registrationCode.errors.required">Registration Code is required</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Register
-        </button>
-        <a routerLink="/login" class="btn btn-warning">Cancel</a>
-    </div>
-</form>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Register
+            </button>
+            <a routerLink="/login" class="btn btn-warning">Cancel</a>
+        </div>
+    </form>
+</div>

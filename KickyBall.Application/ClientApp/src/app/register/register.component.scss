@@ -20,3 +20,9 @@ input {
 .help-text {
     max-width: 300px;
 }
+
+.register {
+    overflow-y: auto;
+    display: block;
+    height: calc(100% - 50px);
+}
