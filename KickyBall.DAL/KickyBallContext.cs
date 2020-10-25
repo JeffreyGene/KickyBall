@@ -16,6 +16,7 @@ namespace KickyBall.DAL
         public DbSet<Round> Rounds { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
+        public DbSet<RfCountToRouteAndGame> RfToRouteAndGameList { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

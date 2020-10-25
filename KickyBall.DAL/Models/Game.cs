@@ -16,5 +16,6 @@ namespace KickyBall.DAL.Models
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public List<Round> Rounds { get; set; }
+        public List<RfCountToRouteAndGame> RfCountToRouteAndGameList { get; set; }
     }
 }

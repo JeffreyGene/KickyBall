@@ -31,7 +31,7 @@ export class PlayComponent implements OnInit, OnDestroy {
   roundStarted: boolean = false;
   roundNumber: number = 0;
   timerSubscription: Subscription;
-  timeLeftForRound: number = this.ROUND_TIME;
+  timeLeftForRound: number;
   goalsThisRound: number = 0;
   routeIdsThisGame: number[] = [];
   scoreText: string = null;
@@ -52,6 +52,7 @@ export class PlayComponent implements OnInit, OnDestroy {
   showEndOfRound: boolean = false;
   shootGoal: boolean = false;
   missGoal: boolean = false;
+  settingScore: boolean = false;
 
   constructor(controllers: Controllers) {
     this.controllers = controllers;
@@ -146,7 +147,7 @@ export class PlayComponent implements OnInit, OnDestroy {
   unPause() {
     this.paused = false;
     this.showNeedMoreDataMessage = false;
-    if(this.timeLeftForRound != 0){
+    if(this.timeLeftForRound > 0){
       if(!this.timerSubscription){
         this.timerSubscription = this.initTimerSubscription();
       }
@@ -236,12 +237,12 @@ export class PlayComponent implements OnInit, OnDestroy {
   endRound(){
     this.showNeedMoreDataMessage = false;
     this.showEndOfRound = true;
+    this.showResetButton = false;
+    this.timerSubscription.unsubscribe();
     this.controllers.gameController.FinishRound(this.currentRound.roundId).subscribe(r => {
       //Round Fininshed
+      this.roundStarted = false;
     });
-    this.timerSubscription.unsubscribe();
-    this.roundStarted = false;
-    this.showResetButton = false;
   }
 
   endGame(){
@@ -275,46 +276,28 @@ export class PlayComponent implements OnInit, OnDestroy {
       this.routeIdsThisGame.splice(0, this.routeIdsThisGame.length - this.UNIQUE_ROUTES_TO_SCORE);
     }
   }
-
-  //50/50 chance of scoring
-  scoreForPractice(){
-    let scored = Math.round(Math.random());
-    if(scored == 1){
-      this.scoreText = 'GOAL!';
-      setTimeout(() => {
-        this.shootGoal = true;
-      }, 100);
-      this.goalsThisRound++;
-      this.totalGoals++;
-      this.practiceGoals++;
-      this.currentGoalAttempt.scoredGoal = true;
-    }
-    else {
-      setTimeout(() => {
-        this.missGoal = true;
-      }, 100);
-    }
-    this.updateRouteIdsThisGame();
-  }
   
   //Score as long as you don't choose the same path you have done previously this round
   //test this
-  scoreForNormal(){
-    if(!this.routeIdsThisGame.some(p => p == this.currentGoalAttempt.routeId)){
+  updateScore(scoredGoal){
+    if(scoredGoal){
       this.scoreText = 'GOAL!';
       setTimeout(() => {
         this.shootGoal = true;
       }, 100);
       this.goalsThisRound++;
+      if(this.currentRound.practice){
+        this.practiceGoals++;
+      }
       this.totalGoals++;
       this.currentGoalAttempt.scoredGoal = true;
     }
     else {
+      this.scoreText = 'No goal.';
       setTimeout(() => {
         this.missGoal = true;
       }, 100);
     }
-    this.updateRouteIdsThisGame();
   }
 
   getRouteId(){
@@ -330,21 +313,17 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
 
   setScore(){
-    this.scoreText = 'No goal.';
+    this.settingScore = true;
     this.currentGoalAttempt.scoredGoal = false;
     this.currentGoalAttempt.routeId = this.getRouteId();
-    if(this.currentRound.practice){
-      this.scoreForPractice();
-    }
-    else{
-      this.scoreForNormal();
-    }
     let request = new RecordGoalAttemptRequest();
     request.goalAttempt = this.currentGoalAttempt;
     request.secondsRemaining = this.timeLeftForRound;
-    this.currentRound.goalAttempts.push(this.currentGoalAttempt);
     this.controllers.gameController.RecordGoalAttempt(request).subscribe(a => {
       //Goal Recorded
+      this.updateScore(a.scoredGoal);
+      this.currentRound.goalAttempts.push(this.currentGoalAttempt);
+      this.settingScore = false;
     });
   }
 

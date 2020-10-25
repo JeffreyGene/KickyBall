@@ -24,7 +24,7 @@
   <div class="game-options">
     <button *ngIf="!gameStarted" (click)="startGame()" class="game-options-button">Start Game</button>
     <button *ngIf="!roundStarted && gameStarted" (click)="startRound()" class="game-options-button start-round">Start Round</button>
-    <button *ngIf="showResetButton" (click)="resetFieldPosition()" class="game-options-button">Reset Field</button>
+    <button *ngIf="showResetButton" (click)="resetFieldPosition()" (disabled)="settingScore" title="{{ settingScore ? 'Currently calculating score. Please wait.' : ''}}" class="game-options-button">Reset Field</button>
     <div *ngIf="showEndOfRound" class="end-of-round-wrapper">
       <p>End of Round {{roundNumber}}</p>
     </div>

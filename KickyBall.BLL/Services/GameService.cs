@@ -72,7 +72,6 @@ namespace KickyBall.BLL.Services
                 .Take(take)
                 .ToList();
         }
-
         public int GetGoalAttemptNumberForRound(int roundId)
         {
             //check null
@@ -86,12 +85,38 @@ namespace KickyBall.BLL.Services
             }
             return round.GoalAttempts.Max(a => a.Ordinal) + 1;
         }
-
         public GoalAttempt RecordGoalAttempt(RecordGoalAttemptRequest request)
         {
-            _context.GoalAttempts.Add(request.GoalAttempt);
             Round round = _context.Rounds.FirstOrDefault(r => r.RoundId == request.GoalAttempt.RoundId);
             round.SecondsRemaining = request.SecondsRemaining;
+            RfCountToRouteAndGame currentRfCountToRouteAndGame = _context.RfToRouteAndGameList.FirstOrDefault(rf => rf.RouteId == request.GoalAttempt.RouteId && rf.GameId == round.GameId);
+            currentRfCountToRouteAndGame.Value += 1;
+
+            List<RfCountToRouteAndGame> otherRfCountToRouteAndGameList = _context.RfToRouteAndGameList.Where(rf => rf.GameId == round.GameId && rf.RouteId != request.GoalAttempt.RouteId).ToList();
+            double sum = otherRfCountToRouteAndGameList.Sum(rf => rf.Value) + currentRfCountToRouteAndGame.Value;
+
+            double newRf = currentRfCountToRouteAndGame.Value / sum;
+            if(newRf <= 0.0825)
+            {
+                if (!round.Practice)
+                {
+                    //Score a goal! 
+                    request.GoalAttempt.ScoredGoal = true;
+                }
+                currentRfCountToRouteAndGame.Value *= 0.95;
+                otherRfCountToRouteAndGameList.ForEach(rf => rf.Value *= 0.95);
+            }
+            else if (!round.Practice)
+            {
+                //Did not score a goal
+                request.GoalAttempt.ScoredGoal = false;
+            }
+            if (round.Practice)
+            {
+                request.GoalAttempt.ScoredGoal = new Random().Next(100) < 50;
+            }
+
+            _context.GoalAttempts.Add(request.GoalAttempt);
             _context.SaveChanges();
             return request.GoalAttempt;
         }
@@ -113,6 +138,11 @@ namespace KickyBall.BLL.Services
         public Game CreateGame(Game game)
         {
             game.StartTime = DateTime.Now;
+            game.RfCountToRouteAndGameList = _context.Routes.Select(r => new RfCountToRouteAndGame
+            {
+                RouteId = r.RouteId,
+                Value = 0
+            }).ToList();
             _context.Games.Add(game);
             _context.SaveChanges();
             return game;
