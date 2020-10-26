@@ -92,26 +92,26 @@ namespace KickyBall.BLL.Services
             RfCountToRouteAndGame currentRfCountToRouteAndGame = _context.RfToRouteAndGameList.FirstOrDefault(rf => rf.RouteId == request.GoalAttempt.RouteId && rf.GameId == round.GameId);
             currentRfCountToRouteAndGame.Value += 1;
 
-            List<RfCountToRouteAndGame> otherRfCountToRouteAndGameList = _context.RfToRouteAndGameList.Where(rf => rf.GameId == round.GameId && rf.RouteId != request.GoalAttempt.RouteId).ToList();
-            double sum = otherRfCountToRouteAndGameList.Sum(rf => rf.Value) + currentRfCountToRouteAndGame.Value;
-
-            double newRf = currentRfCountToRouteAndGame.Value / sum;
-            if(newRf <= 0.0825)
+            if (!round.Practice)
             {
-                if (!round.Practice)
+                List<RfCountToRouteAndGame> otherRfCountToRouteAndGameList = _context.RfToRouteAndGameList.Where(rf => rf.GameId == round.GameId && rf.RouteId != request.GoalAttempt.RouteId).ToList();
+                double sum = otherRfCountToRouteAndGameList.Sum(rf => rf.Value) + currentRfCountToRouteAndGame.Value;
+
+                double newRf = currentRfCountToRouteAndGame.Value / sum;
+                if(newRf <= 0.0825)
                 {
                     //Score a goal! 
                     request.GoalAttempt.ScoredGoal = true;
+                    currentRfCountToRouteAndGame.Value *= 0.95;
+                    otherRfCountToRouteAndGameList.ForEach(rf => rf.Value *= 0.95);
                 }
-                currentRfCountToRouteAndGame.Value *= 0.95;
-                otherRfCountToRouteAndGameList.ForEach(rf => rf.Value *= 0.95);
+                else
+                {
+                    //Did not score a goal
+                    request.GoalAttempt.ScoredGoal = false;
+                }
             }
-            else if (!round.Practice)
-            {
-                //Did not score a goal
-                request.GoalAttempt.ScoredGoal = false;
-            }
-            if (round.Practice)
+            else
             {
                 request.GoalAttempt.ScoredGoal = new Random().Next(100) < 50;
             }
